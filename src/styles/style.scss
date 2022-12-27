@@ -1,0 +1,49 @@
+//@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400&display=swap');
+@import"fonts.scss";
+@import "modules/variables.scss";
+@import "modules/nullstyle.scss";
+@import"modules/mixin.scss";
+// Подключение файлов стилей страниц и элементов
+@import "modules/ui.scss";
+@import "modules/header.scss";
+@import "modules/footer.scss";
+
+body {
+    color: $first_color;
+    background-color: $second_color;
+    font-family: $fontfamily;
+    font-size: 50px;
+    font-style: normal;
+    font-weight: 100;
+
+}
+
+body.locked {
+    overflow: hidden;
+}
+
+// Оболочка
+.wrapper {
+    overflow: hidden;
+    min-height: 100%;
+    // display: flex;
+    // flex-direction: column;
+}
+
+// Ограничивающий контейнер
+._container {
+    margin: 0 auto;
+    max-width: calc($container-width + $container-padding*2 );
+    padding: 0 $container-padding;
+}
+
+.page {
+    // flex: 1 1 auto;
+}
+
+.content {
+    // height: 500px;
+    //  width: 100%;
+    // overflow-y: auto;
+    // scroll-snap-type: y mandatory;
+}

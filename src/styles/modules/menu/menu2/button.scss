@@ -1,0 +1,160 @@
+@import "../../variables.scss";
+
+
+
+$colorBGmenu: $first_color;
+$colorBigBGmenuClosed: white;
+
+.header__burger {
+    position: relative;
+    width: 24px;
+    height: 20px;
+    cursor: pointer;
+
+    //z-index: 200;
+    @media(min-width: $BurgerMenuScreenWidth) {
+        width: 30px;
+        height: 21px;
+    }
+
+    & span {
+        position: absolute;
+        background-color: $colorBGmenu;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        top: 9px;
+        border-radius: 1px;
+
+        @media(min-width: $BurgerMenuScreenWidth) {
+            height: 3px;
+
+        }
+    }
+
+    &::before,
+    &::after {
+        content: '';
+        position: absolute;
+        background-color: $colorBGmenu;
+        width: 100%;
+        height: 2px;
+        left: 0;
+
+        @media(min-width: $BurgerMenuScreenWidth) {
+            height: 3px;
+
+        }
+    }
+
+    &::before {
+        animation: ease 0.5s BackwardsBurgerStickAnimation forwards;
+
+    }
+
+    &::after {
+        animation: ease 0.5s BackwardsBurgerStickAnimationBottom forwards;
+    }
+
+    &.active span {
+
+
+        transform: scale(0);
+
+        @media(min-width: $BurgerMenuScreenWidth) {
+            background-color: $colorBigBGmenuClosed;
+        }
+
+    }
+
+    &.active {
+        &::before {
+            @media(min-width: $BurgerMenuScreenWidth) {
+                background-color: $colorBigBGmenuClosed;
+            }
+
+            animation: ease 0.5s BurgerStickAnimation forwards;
+        }
+
+        &::after {
+            @media(min-width: $BurgerMenuScreenWidth) {
+                background-color: $colorBigBGmenuClosed;
+            }
+
+            animation: ease 0.5s BurgerStickAnimationBottom forwards;
+        }
+    }
+
+}
+
+$top: 9px;
+
+@keyframes BurgerStickAnimation {
+    0% {
+        top: 0px;
+        transform: rotate(0deg);
+    }
+
+    50% {
+        top: $top;
+        transform: rotate(0deg);
+    }
+
+    100% {
+        top: $top;
+        transform: rotate(-45deg);
+    }
+}
+
+@keyframes BackwardsBurgerStickAnimation {
+    0% {
+
+        top: $top;
+        transform: rotate(-45deg);
+    }
+
+    50% {
+        top: $top;
+        transform: rotate(0deg);
+    }
+
+    100% {
+        top: 0px;
+        transform: rotate(0deg);
+    }
+}
+
+@keyframes BurgerStickAnimationBottom {
+    0% {
+        bottom: 0px;
+        transform: rotate(0deg);
+    }
+
+    50% {
+        bottom: $top;
+        transform: rotate(0deg);
+    }
+
+    100% {
+        bottom: $top;
+        transform: rotate(45deg);
+    }
+}
+
+@keyframes BackwardsBurgerStickAnimationBottom {
+    0% {
+
+        bottom: $top;
+        transform: rotate(45deg);
+    }
+
+    50% {
+        bottom: $top;
+        transform: rotate(0deg);
+    }
+
+    100% {
+        bottom: 0px;
+        transform: rotate(0deg);
+    }
+}

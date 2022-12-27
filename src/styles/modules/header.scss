@@ -1,0 +1,13 @@
+@import "variables.scss";
+@import"mixin.scss";
+@import"menu/menu2/menu2.scss";
+
+.header {
+
+
+    &__row {
+        @media (max-width:$BurgerMenuScreenWidth) {}
+
+
+    }
+}

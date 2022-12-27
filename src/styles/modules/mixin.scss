@@ -1,0 +1,39 @@
+@import "variables.scss";
+
+// Масштабирование свойств
+@mixin adaptiv-value($property, $startSize, $targetSize, $type) {
+    #{$property}: $startSize + px;
+
+    @if $type==1 {
+
+        // Только если больше контейнера 
+        @if ($startSize < $targetSize) {
+            $addSize: ($targetSize - $startSize);
+
+
+            @media(min-width: #{$targetDisplayWidth + px}) {
+                #{$property}: calc(#{$startSize + px} + #{$addSize} * ((100vw - #{$targetDisplayWidth + px}) / #{$maxDisplayWidth - $targetDisplayWidth}));
+            }
+        }
+
+        @else if ($startSize > $targetSize) {
+            $addSize: ($startSize - $targetSize);
+
+
+            @media(min-width: #{$targetDisplayWidth + px}) {
+                #{$property}: calc(#{$startSize + px} - #{$addSize} * ((#{$targetDisplayWidth + px} - 100vw) / #{$targetDisplayWidth - $maxDisplayWidth}));
+            }
+        }
+
+    }
+
+    @else {
+        // Только если меньше контейнера 
+        $addSize: ($startSize - $targetSize);
+
+
+        @media(max-width: #{$targetDisplayWidth + px}) {
+            #{$property}: calc(#{$targetSize + px} + #{$addSize} * ((100vw - #{$minDisplayWidth + px}) / #{$targetDisplayWidth - $minDisplayWidth}));
+        }
+    }
+}

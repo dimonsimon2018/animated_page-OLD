@@ -1,0 +1,717 @@
+@import "../../variables.scss";
+@import"../../mixin.scss";
+@import"button.scss";
+
+// Настройки боковой панели
+$SidebarBackgroundColor: gray; // цвет фона боковой панели
+$ShadowColor: transparent; // цвет тени боковой панели
+$Menu-border-radius: 50px;
+$BorderColor_s: rgb(255, 255, 255); // Цвет верхней и нижней границы выпадающего меню 
+$FontColorFirstLevelSmall: rgb(255, 255, 255); // Цвет шрифта 1 уровня малого меню
+$FontColorSecondLevelSmall: rgb(255, 255, 255); // Цвет шрифта 2 уровня малого меню
+// Настройки большого меню
+$BigMenuArrowOffset: 20px; // отступ от текста пункта меню до стрелочки 
+$BigMenuPaddindCenter: 30px; // отступ главного и вспомогательного меню от центра
+$BorderColor_l: rgb(255, 255, 255); // Цвет верхней и нижней границы выпадающего меню 
+$FontColorFirstLevelBig: rgb(255, 255, 255); // Цвет шрифта 1 уровня большого меню
+$FontColorSecondLevelBig: rgb(255, 255, 255); // Цвет шрифта 2 уровня большого меню
+// Общие настройки
+$FontHoverColor: #88e209;
+
+//dfd
+
+
+
+
+$FirstLevelBackgroundColor: transparent;
+$SecondLevelBackgroundColor: transparent;
+
+
+
+
+$leftOfsetSideMenu: 80px; // недоезд меню к левой части экрана
+
+// #region  Адаптируем шрифты верхнего уровня
+.menu {
+    &__top-level-content {
+        font-family: $MenuFont;
+        font-style: normal;
+        font-weight: 500;
+
+        font-size: 14px;
+        letter-spacing: 1.135px;
+        line-height: 48px;
+    }
+
+    &__textcontainer {
+        height: 48px;
+    }
+
+    // Стрелочка  
+
+    &__arrow-placeholder {
+        width: 28px;
+        height: 28px;
+
+        & svg {
+            width: 11px;
+            height: 11px;
+            //fill: $FontColorFirstLevelSmall ;
+        }
+    }
+
+
+}
+
+@media(min-width:600px) {
+    .menu__top-level-content {
+
+        font-size: 16px;
+        letter-spacing: 1.901px;
+        line-height: 48px;
+    }
+
+    // высота контейнера где прячем эффект прокрутки
+    .menu__textcontainer {
+        height: 48px;
+    }
+
+    // Стрелочка  
+    .menu {
+        &__arrow-placeholder {
+            width: 32px;
+            height: 32px;
+
+            & svg {
+                width: 13px;
+                height: 13px;
+            }
+        }
+    }
+}
+
+@media(min-width:$BurgerMenuScreenWidth) {
+    .menu__top-level-content {
+        font-style: italic;
+        font-weight: 600;
+        font-size: 20px;
+        letter-spacing: 1.901px;
+        line-height: 36px;
+    }
+
+    // высота контейнера где прячем эффект прокрутки
+    .menu__textcontainer {
+        height: 36px;
+    }
+
+    // Стрелочка  
+    .menu {
+        &__arrow-placeholder {
+            width: 36px;
+            height: 36px;
+
+            & svg {
+                width: 15px;
+                height: 15px;
+            }
+        }
+    }
+}
+
+@media(min-width:1400px) {
+    .menu__top-level-content {
+        font-size: 26px;
+        letter-spacing: 2.0475px;
+        line-height: 47px;
+    }
+
+    // высота контейнера где прячем эффект прокрутки
+    .menu__textcontainer {
+        height: 47px;
+    }
+
+    // Стрелочка  
+    .menu {
+        &__arrow-placeholder {
+            width: 47px;
+            height: 47px;
+
+            & svg {
+                width: 19px;
+                height: 19px;
+            }
+        }
+    }
+
+
+}
+
+@media(min-width:1600px) {
+    .menu__top-level-content {
+        font-size: 30px;
+        letter-spacing: 2.34px;
+        line-height: 54px;
+    }
+
+    // высота контейнера где прячем эффект прокрутки
+    .menu__textcontainer {
+        height: 54px;
+    }
+
+    // Стрелочка  
+    .menu {
+        &__arrow-placeholder {
+            width: 54px;
+            height: 54px;
+
+            & svg {
+                width: 22px;
+                height: 22px;
+            }
+        }
+    }
+
+
+
+}
+
+// #endregion
+
+// #region Адаптируем шрифты нижнего уровня
+.menu__dropdown-list a {
+    font-family: $MenuFont;
+    font-style: italic;
+    font-weight: 500;
+    color: $FontColorSecondLevelSmall;
+    font-size: 13px;
+    letter-spacing: 1.17px;
+    line-height: 36px;
+}
+
+@media(min-width:600px) {
+    .menu__dropdown-list a {
+        font-family: $MenuFont;
+
+        font-size: 14px;
+        letter-spacing: 1.17px;
+        line-height: 38px;
+    }
+}
+
+
+@media(min-width:$BurgerMenuScreenWidth) {
+    .menu__dropdown-list a {
+        font-weight: 500;
+        font-size: 18px;
+        letter-spacing: 1.901px;
+        line-height: 32px;
+    }
+}
+
+@media(min-width:1400px) {
+    .menu__dropdown-list a {
+        font-size: 22px;
+        letter-spacing: 2.056px;
+        line-height: 39px;
+    }
+}
+
+@media(min-width:1600px) {
+    .menu__dropdown-list a {
+        font-size: 25px;
+        letter-spacing: 2.35px;
+        line-height: 45px;
+    }
+}
+
+// #endregion
+
+// Фильтр экрана
+.screen-filter {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    background-color: transparent;
+    position: fixed;
+    z-index: 5;
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1s ease-out 0s, visibility 1s ease-out 0s, ;
+
+    // top: 100%;
+
+    &.active {
+
+        // обе половинки при широком экране
+        @media(max-width: $BurgerMenuScreenWidth) {}
+
+
+
+        opacity: 1;
+        visibility: visible;
+
+
+
+    }
+
+    &__left {
+        flex: 0 0 100%;
+
+        height: 100%;
+
+        background-color: white;
+        opacity: 0.4;
+
+        @media(min-width: $BurgerMenuScreenWidth) {
+            flex: 0 0 50%;
+        }
+
+    }
+
+    &__right {
+        flex: 0 0 50%;
+        height: 100%;
+        flex: 1;
+        //border: 1px solid black;
+        background-color: $first_color;
+        opacity: 0.2;
+
+    }
+}
+
+// Выключаем прокрутку Body под меню
+body.active {
+    overflow: hidden;
+}
+
+// Настройка меню
+.menu {
+
+
+    // контейнер бокового меню его двигаем
+    &__sidebar-container {
+        //display: none;
+        position: fixed;
+        top: 0;
+        left: calc(100% + $leftOfsetSideMenu);
+        z-index: 10;
+        height: 100vh;
+        width: 100vw;
+        border-top-left-radius: $Menu-border-radius;
+        border-bottom-left-radius: $Menu-border-radius;
+        box-shadow: 0 0 3em $ShadowColor;
+        transition: left .8s ease;
+        // показываем панель бокового меню (видна только фигурка)
+
+        left: 100%;
+
+
+
+        // выдвигаем влево по клику когда добавился класс .active
+        &.active {
+            left: $leftOfsetSideMenu;
+
+            & .menu__top-level-link {
+                transform: translateY(0);
+                opacity: 1;
+                // border: 1px solid red;
+            }
+        }
+    }
+
+    // фигурка
+    &__shape {
+        fill: $SidebarBackgroundColor;
+        width: 40px;
+        height: 200px;
+        position: absolute;
+        left: -40px;
+        top: 0%;
+        bottom: 0;
+        margin: auto 0;
+        filter: drop-shadow(-0.25em 0 1.15em $ShadowColor);
+        //border: 1px solid red;
+        visibility: visible;
+
+    }
+
+    // накрывка для скрытия тени фигурки
+    &__sidebar {
+        position: absolute;
+        background-color: $SidebarBackgroundColor;
+        height: 100%;
+        border-top-left-radius: $Menu-border-radius;
+        border-bottom-left-radius: $Menu-border-radius;
+        top: 0;
+        left: 0px;
+        width: 100%;
+        // Включаем прокрутку меню
+        //overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    &__row {
+        position: relative;
+        width: calc(100vw - $leftOfsetSideMenu);
+        height: 100%;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        @media(min-width:$BurgerMenuScreenWidth) {
+            width: 100vw;
+        }
+    }
+
+
+    // сыллка-контейнер для пункта меню 1 уровня с эффектом
+    &__top-level-link {
+        background-color: $FirstLevelBackgroundColor;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        transform: translateY(40px);
+        opacity: 0;
+        transition: transform .6s, opacity .6s;
+
+    }
+
+    &__textcontainer {
+
+        display: inline-flex;
+        flex-direction: column;
+        // высоту контейнера берем из медиазапросов по Line-height      
+        overflow: hidden;
+        // отодвигаем стрелочку
+        margin-right: $BigMenuArrowOffset;
+
+
+    }
+
+    &__arrow-placeholder {
+        display: flex;
+    }
+
+    &__top-level-content {
+        color: $FontColorFirstLevelSmall;
+    }
+
+    // контейнер для стрелочки
+    &__iconcontainer {
+        width: 100%;
+        height: 100%;
+        // размеры указываем в медиазапросах
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+
+        // Стрелочка
+        & svg {
+            transition: transform .6s;
+            fill: $FontColorFirstLevelSmall;
+
+        }
+    }
+
+    &__inner {
+        transform: translateY(0);
+        transition: transform 0.6s;
+        display: inline-flex;
+    }
+
+    // контейнер для меню 2 уровня
+    &__dropdown-list {
+
+        //position: relative;
+        z-index: 10;
+        background-color: $SecondLevelBackgroundColor;
+        // transform: translateY(-20px);
+        width: 100%;
+        // transition: transform .6s opacity .6s;
+
+
+        & ul {
+            // padding-top: 22px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-bottom: 1px solid $BorderColor_s;
+            border-top: 1px solid $BorderColor_s;
+
+        }
+
+        & li {
+            opacity: 0;
+            transition: transform .5s, opacity .5s;
+            transition-delay: 0.3s;
+            // transform: translateY(40px);
+            display: flex;
+
+            a:hover {
+                color: $FontHoverColor;
+            }
+
+
+        }
+    }
+
+    &__dropdown-list.active {
+        height: 100%;
+        transform: translateY(0);
+        //pointer-events: all;
+        //opacity: 1;
+
+        //  transition: height 1.5s;
+
+        & ul li {
+            // transition: opacity 0.1s, transform 0.1s;
+            // transform: translateY(0);
+            opacity: 1;
+            //transition-delay: 0.3s;
+        }
+    }
+
+}
+
+/// ЭФФЕКТ АКТИВАЦИИ ПУНКТА МЕНЮ
+
+
+// активация пункта главного меню на любой платформе при любом экране
+.menu__top-level-link.active {
+
+
+    span.menu__inner {
+        transform: translateY(-100%);
+    }
+
+    .menu__iconcontainer svg {
+        transform: rotateZ(180deg);
+    }
+
+
+
+    // Меняем цвет стрелочки  
+    .menu__iconcontainer svg {
+        fill: $FontHoverColor;
+    }
+
+    // Меняем цвет текста
+    .menu__textcontainer span {
+        color: $FontHoverColor ;
+    }
+}
+
+
+
+/////////////////////////
+
+
+// контейнер для кнопки бургер
+.header__iconBox-sidebar {
+    position: absolute;
+    // display: none;
+    top: calc(50% - 10px);
+    left: -30px;
+    z-index: 20;
+
+}
+
+// когда показываем малое меню
+@media(max-width:$BurgerMenuScreenWidth) {
+
+    .menu__row {
+        padding: 50px;
+    }
+
+    .menu__dropdown-list {
+        height: 0;
+        overflow: hidden;
+    }
+}
+
+@media(max-width:470px) {
+
+    .menu__row {
+        padding: 25px;
+    }
+}
+
+// когда показываем большое меню
+@media(min-width:$BurgerMenuScreenWidth) {
+
+    // Включаем прокрутку Body под меню
+    body.active {
+        overflow: hidden;
+    }
+
+    // Скрываем тень от меню
+    .menu__sidebar-container {
+        box-shadow: none;
+    }
+
+    .menu__shape {
+        visibility: hidden;
+    }
+
+
+    .menu__row {
+
+        width: 50vw;
+    }
+
+    .menu__item {
+        display: flex;
+        position: relative;
+        //flex-wrap: wrap;
+        justify-content: right;
+
+    }
+
+    .menu__top-level-link {
+        padding-right: $BigMenuPaddindCenter;
+
+        // Назначаем цвет текста меню 1 уровня
+        & .menu__top-level-content {
+            color: $FontColorFirstLevelBig;
+        }
+    }
+
+    // Назначаем цвет стрелочек меню 1 уровня
+    .menu__iconcontainer {
+
+
+        & svg {
+            fill: $FontColorFirstLevelBig;
+        }
+    }
+
+
+
+
+    body._touch .menu__dropdown-list.active {
+
+        visibility: visible;
+        transform: translateY(0);
+        pointer-events: all;
+        opacity: 1;
+        // transition: transform 0.5s, opacity 0.5s, visibility 0.5s;
+
+        ul li {
+            // transition-delay: 5.3s;
+            transition: opacity 0.5s, transform 0.5s;
+            transform: translateY(0);
+            opacity: 1;
+
+        }
+    }
+
+
+    .menu__dropdown-list {
+
+        position: absolute;
+        visibility: hidden;
+        right: -100%;
+        pointer-events: none;
+        transform: translateY(-100vh);
+        padding-left: $BigMenuPaddindCenter;
+        transition: transform 0.5s, opacity 0.5s, visibility 0.5s;
+        opacity: 0;
+
+        & li {
+            transition: opacity 0.5s, transform 0.5s;
+            transform: translateY(40px);
+            opacity: 0;
+
+        }
+
+        & ul {
+            align-items: flex-start;
+            border-bottom: 1px solid $BorderColor_l;
+            border-top: 1px solid $BorderColor_l;
+        }
+
+        // Назначаем цвет текста меню 2 уровня
+        & a {
+            color: $FontColorSecondLevelBig;
+        }
+    }
+
+    body._pc .menu__item {
+
+        // эффект наведения мыши для PC
+        &:hover {
+
+
+            .menu__inner {
+                transform: translateY(-100%);
+            }
+
+            // Меняем цвет текста
+            .menu__textcontainer span {
+                color: $FontHoverColor ;
+            }
+
+            // Убираем возможность кликать стрелочку
+            .menu__iconcontainer {
+                pointer-events: none;
+            }
+
+            .menu__iconcontainer svg {
+                transform: rotateZ(180deg);
+            }
+
+            // Меняем цвет стрелочки  
+            .menu__iconcontainer svg {
+                fill: $FontHoverColor;
+            }
+
+            .menu__dropdown-list {
+                visibility: visible;
+                transform: translateY(0);
+                pointer-events: all;
+                opacity: 1;
+                transition: transform 0.5s, opacity 0.5s, visibility 0.5s;
+
+                ul li {
+                    // transition-delay: 5.3s;
+                    transition: opacity 0.5s, transform 0.5s;
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+
+        }
+    }
+
+
+
+    // показываем панель бокового меню
+    .menu__sidebar-container {
+        // display: block;
+        left: 0;
+        top: -100vh;
+        border-radius: 0;
+        //background-color: transparent;
+
+        &.active {
+            top: 0;
+            left: 0;
+        }
+    }
+
+    .menu__sidebar {
+        border-radius: 0;
+        background-color: transparent;
+    }
+
+    // показываем контейнер для кнопки бургера в фиксированной позиции
+    .header__iconBox-sidebar {
+        position: fixed;
+        top: 50px;
+        left: calc(100vw - 80px);
+    }
+}
