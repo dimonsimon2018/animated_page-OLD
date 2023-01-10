@@ -25,7 +25,7 @@ const targets = document.querySelectorAll('.content__snap-page');
 
 targets.forEach(p=>{observer.observe(p)});
 
-
+const animationBG = document.querySelector('.snap-sequence-canvas');
 
 function checkDisplayedWindow(){
   targets.forEach(function(elem, index) {
@@ -34,9 +34,25 @@ function checkDisplayedWindow(){
         // событие смены номера окна
         console.log(currWindow);
        
+       //animationBG.setAttribute('height', '350');    
+       
     }
  
 });
+}
+
+let windowWidth;
+let windowHeight;
+window.onload = function(e){ 
+  checkWindowSize(); 
+}
+// вешаем прослушку изменения ширины окна
+window.addEventListener('resize', checkWindowSize);
+function checkWindowSize(){
+windowWidth = parseInt(document.body.clientWidth);
+windowHeight = parseInt(document.body.clientHeight);
+animationBG.setAttribute('width', windowWidth); 
+animationBG.setAttribute('height', windowHeight);
 }
 
 
