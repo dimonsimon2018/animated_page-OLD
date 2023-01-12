@@ -7,16 +7,18 @@ const options = {
 const callback = function (entries, observer) {
 
   entries.forEach(function (elem, index) {
+   
     if (elem.isIntersecting) {
+      // чистим классы у остальных элементов
+      targets.forEach(function (e, i) { 
+        
+        if (e.classList.contains('displayed')) {
+            e.classList.remove('displayed');        
+            }  
+        });
 
       elem.target.classList.add("displayed");
-    }
-    else {
-      if (elem.target.classList.contains('displayed')) {
-        elem.target.classList.remove("displayed");
-      }
-
-    }
+    }   
     checkDisplayedWindow();
   });
 };
@@ -30,10 +32,15 @@ const options2 = {
 const callback2 = function (entries, observer) {
 
   entries.forEach(function (elem, index) {
-    if (elem.isIntersecting) {
-      console.log(elem.intersectionRatio);
+    
+      // проверяем пришло ли сообщение от активного окна
+      if(elem.target.classList.contains('displayed')){
+        console.log(elem.intersectionRatio);
+      }
+      
+      
       // console.log(checkintersectionRatio(elem.intersectionRatio));
-    }
+    
 
   });
 };
@@ -59,7 +66,7 @@ function checkDisplayedWindow() {
     if (elem.classList.contains('displayed')) {
       currWindow = index;
       // событие смены номера окна
-      console.log(currWindow);
+      console.log(`Текущее окно: ${currWindow}`);
       if (currWindow === 0) {
         curSprite = sprite[0];
       };
