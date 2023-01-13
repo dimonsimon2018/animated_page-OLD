@@ -1,11 +1,15 @@
-var currWindow;
+let currWindow; // номер текущего окна
+let currFrame; // номер текущего кадра
 
 /////////////////// Хэндлер для пересечения полного экрана
 const options = {
   threshold: [1]
 };
 const callback = function (entries, observer) {
+// обнуляем номер кадра
 
+console.log(`Текущий номер кадра: ${currFrame}`);
+currFrame = 0;
   entries.forEach(function (elem, index) {
    
     if (elem.isIntersecting) {
@@ -26,8 +30,9 @@ const observer = new IntersectionObserver(callback, options);
 //////////////////////////////////////////////////////////////
 
 /////////////////// Хэндлер для пересечения части экрана
+const intersections = [0.25,0.35,0.45,0.55,0.65];
 const options2 = {
-  threshold: [0.25, 0.5, 0.75]
+  threshold: intersections
 };
 const callback2 = function (entries, observer) {
 
@@ -35,7 +40,13 @@ const callback2 = function (entries, observer) {
     
       // проверяем пришло ли сообщение от активного окна
       if(elem.target.classList.contains('displayed')){
-        console.log(elem.intersectionRatio);
+        currFrame++;
+        curSprite = sprite[currFrame*4];
+        reDrawCanvas();
+        //console.log( elem.intersectionRatio);
+       // console.log(`${checkintersectionRatio(elem.intersectionRatio)}`);
+
+        //console.log(elem);
       }
       
       
@@ -49,9 +60,25 @@ const observer2 = new IntersectionObserver(callback2, options2);
 
 
 function checkintersectionRatio(val) {
-  if (val <= 0.75) { return `Это пересечение экрана ${currWindow} 0.75`; }
-  else if (val <= 0.5) { return `Это пересечение экрана ${currWindow} 0.5`; }
-  else if (val <= 0.25) { return `Это пересечение экрана ${currWindow} 0.25`; }
+let arr = [];
+ intersections.forEach(function (elem, index) {
+    arr[index] = Math.abs(intersections[index]-val) ;      
+    
+  });
+  // находим минимальное
+  
+  let reversed = arr.reverse();
+  let minimumVal = reversed[0];
+  let indexMin = 0;
+reversed.forEach(function (elem, index) {
+    if(reversed[index] < minimumVal) {
+    minimumVal = reversed[index]; // если находим другое минимальное число, то сохраняем в переменную
+    indexMin = index;
+    
+  }
+ // console.log(reversed);
+  });
+return indexMin;
 }
 
 const targets = document.querySelectorAll('.content__snap-page');
@@ -133,7 +160,7 @@ function createSprites() {
 
 
 window.onload = function (e) {
-  console.log("Событие window.onload");
+ // console.log("Событие window.onload");
 
   // Canvas.init();
   checkWindowSize();
