@@ -29,40 +29,108 @@ currFrame = 0;
 const observer = new IntersectionObserver(callback, options);
 //////////////////////////////////////////////////////////////
 
-/////////////////// Хэндлер для пересечения части экрана
-const intersections = [0.25,0.35,0.45,0.55,0.65];
+/////////////////// Хэндлер2 для пересечения части экрана
+const intersections2 = [0.1, 0.26, 0.42, 0.58, 0.74];
 const options2 = {
-  threshold: intersections
+  threshold: intersections2
 };
 const callback2 = function (entries, observer) {
-
-  entries.forEach(function (elem, index) {
-    
+  entries.forEach(function (elem, index) {    
       // проверяем пришло ли сообщение от активного окна
       if(elem.target.classList.contains('displayed')){
         currFrame++;
-        curSprite = sprite[currFrame*4];
+        curSprite = sprite[currFrame];
         reDrawCanvas();
         //console.log( elem.intersectionRatio);
-       // console.log(`${checkintersectionRatio(elem.intersectionRatio)}`);
-
+        console.log(`${checkintersectionRatio(elem.intersectionRatio, intersections2)}`);
         //console.log(elem);
-      }
-      
-      
+      }       
       // console.log(checkintersectionRatio(elem.intersectionRatio));
-    
-
   });
 };
 const observer2 = new IntersectionObserver(callback2, options2);
 //////////////////////////////////////////////////////////////
 
+/////////////////// Хэндлер3 для пересечения части экрана
+const intersections3 = [0.14, 0.30, 0.46, 0.62, 0.78];
+const options3 = {
+  threshold: intersections3
+};
+const callback3 = function (entries, observer) {
+  entries.forEach(function (elem, index) {    
+      // проверяем пришло ли сообщение от активного окна
+      if(elem.target.classList.contains('displayed')){
+        currFrame++;
+        curSprite = sprite[currFrame];
+        reDrawCanvas();
+        //console.log( elem.intersectionRatio);
+        console.log(`${checkintersectionRatio(elem.intersectionRatio, intersections3)}`);
+        //console.log(elem);
+      }       
+      // console.log(checkintersectionRatio(elem.intersectionRatio));
+  });
+};
+const observer3 = new IntersectionObserver(callback3, options3);
+//////////////////////////////////////////////////////////////
 
-function checkintersectionRatio(val) {
+/////////////////// Хэндлер4 для пересечения части экрана
+const intersections4 = [0.18, 0.34, 0.5, 0.66, 0.82];
+const options4 = {
+  threshold: intersections4
+};
+const callback4 = function (entries, observer) {
+  entries.forEach(function (elem, index) {    
+      // проверяем пришло ли сообщение от активного окна
+      if(elem.target.classList.contains('displayed')){
+        currFrame++;
+        curSprite = sprite[currFrame];
+        reDrawCanvas();
+        //console.log( elem.intersectionRatio);
+        console.log(`${checkintersectionRatio(elem.intersectionRatio, intersections4)}`);
+        //console.log(elem);
+      }       
+      // console.log(checkintersectionRatio(elem.intersectionRatio));
+  });
+};
+const observer4 = new IntersectionObserver(callback4, options4);
+//////////////////////////////////////////////////////////////
+
+/////////////////// Хэндлер5 для пересечения части экрана
+const intersections5 = [0.22, 0.38, 0.54, 0.7, 0.86];
+const options5 = {
+  threshold: intersections5
+};
+const callback5 = function (entries, observer) {
+  entries.forEach(function (elem, index) {    
+      // проверяем пришло ли сообщение от активного окна
+      if(elem.target.classList.contains('displayed')){
+        currFrame++;
+        curSprite = sprite[currFrame];
+        reDrawCanvas();
+        //console.log( elem.intersectionRatio);
+        console.log(`${checkintersectionRatio(elem.intersectionRatio, intersections5)}`);
+        //console.log(elem);
+      }       
+      // console.log(checkintersectionRatio(elem.intersectionRatio));
+  });
+};
+const observer5 = new IntersectionObserver(callback5, options5);
+//////////////////////////////////////////////////////////////
+
+
+
+
+const targets = document.querySelectorAll('.content__snap-page');
+targets.forEach(p => { observer.observe(p) });
+targets.forEach(p => { observer2.observe(p) });
+targets.forEach(p => { observer3.observe(p) });
+targets.forEach(p => { observer4.observe(p) });
+targets.forEach(p => { observer5.observe(p) });
+
+function checkintersectionRatio(val, array) {
 let arr = [];
- intersections.forEach(function (elem, index) {
-    arr[index] = Math.abs(intersections[index]-val) ;      
+ array.forEach(function (elem, index) {
+    arr[index] = Math.abs(array[index]-val) ;     
     
   });
   // находим минимальное
@@ -81,9 +149,7 @@ reversed.forEach(function (elem, index) {
 return indexMin;
 }
 
-const targets = document.querySelectorAll('.content__snap-page');
-targets.forEach(p => { observer.observe(p) });
-targets.forEach(p => { observer2.observe(p) });
+
 
 
 
