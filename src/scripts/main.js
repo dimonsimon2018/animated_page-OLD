@@ -1,7 +1,8 @@
 let currWindow; // номер текущего окна
 let currFrame; // номер текущего кадра
-let direction ;
-let LastItersectionRatio;
+let direction ; // направление прокрутки
+let LastItersectionRatio; // последняя координата Y элемента
+let intersectionPositions = [];
 /////////////////// Хэндлер для пересечения полного экрана
 const options = {
   threshold: [1]
@@ -158,8 +159,14 @@ arr.forEach(function (elem, index) {
   });
    //console.log(`index ${indexMin}`);
    checkScrollDirection (y_Pos);
-   // возвращаем реальую величину процента видимости экрана   
-return array[indexMin];
+   // возвращаем реальую величину процента видимости экрана 
+   intersectionPositions.forEach(function (elem, index) {
+    if(intersectionPositions[index] === array[indexMin]) {
+      console.log(index);
+      return index;
+  } 
+  });  
+
 }
 
 function checkScrollDirection (rate){
@@ -235,7 +242,7 @@ let sprite = [];
 
 ctx.clearRect(0, 0, windowWidth, windowHeight);
 
-
+unionArrays();
 createSprites();
 let curSprite = sprite[0];
 reDrawCanvas();
@@ -249,12 +256,33 @@ function createSprites() {
   }
 }
 
+function unionArrays(){
+  // обьединяем intersections в единый массив и зеркалим его
+  let currIndex = 0;  
+  let reversed = [];
+ intersections2.forEach(function (elem, index) {
+
+  reversed[currIndex] = intersections2[index];
+  currIndex++;
+  reversed[currIndex] = intersections3[index];
+  currIndex++;
+  reversed[currIndex] = intersections4[index];
+  currIndex++;
+  reversed[currIndex] = intersections5[index];
+  currIndex++;
+ });
+   intersectionPositions = reversed.reverse();
+ console.log(intersectionPositions);
+}
+
 
 window.onload = function (e) {
  // console.log("Событие window.onload");
 
   // Canvas.init();
   checkWindowSize();
+  
+ 
 
 }
 // вешаем прослушку изменения ширины окна
