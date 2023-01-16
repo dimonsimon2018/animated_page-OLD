@@ -1,6 +1,7 @@
 let currWindow; // номер текущего окна
 let currFrame; // номер текущего кадра
-
+let direction ;
+let LastItersectionRatio;
 /////////////////// Хэндлер для пересечения полного экрана
 const options = {
   threshold: [1]
@@ -8,8 +9,9 @@ const options = {
 const callback = function (entries, observer) {
 // обнуляем номер кадра
 
-console.log(`Текущий номер кадра: ${currFrame}`);
+//console.log(`Текущий номер кадра: ${currFrame}`);
 currFrame = 0;
+LastItersectionRatio = 0;
   entries.forEach(function (elem, index) {
    
     if (elem.isIntersecting) {
@@ -36,13 +38,19 @@ const options2 = {
 };
 const callback2 = function (entries, observer) {
   entries.forEach(function (elem, index) {    
+    
+    
       // проверяем пришло ли сообщение от активного окна
       if(elem.target.classList.contains('displayed')){
-        currFrame++;
-        curSprite = sprite[currFrame];
-        reDrawCanvas();
+
+        // определяем направление движения
+    console.log();
+       // curSprite = sprite[currFrame];
+       // console.log(`Кадр: ${currFrame}`);
+       // currFrame++;
+       // reDrawCanvas();
         //console.log( elem.intersectionRatio);
-        console.log(`${checkintersectionRatio(elem.intersectionRatio, intersections2)}`);
+        console.log(`${checkintersectionRatio(elem.intersectionRatio, intersections2, elem.boundingClientRect.y)}`);
         //console.log(elem);
       }       
       // console.log(checkintersectionRatio(elem.intersectionRatio));
@@ -60,11 +68,13 @@ const callback3 = function (entries, observer) {
   entries.forEach(function (elem, index) {    
       // проверяем пришло ли сообщение от активного окна
       if(elem.target.classList.contains('displayed')){
-        currFrame++;
-        curSprite = sprite[currFrame];
-        reDrawCanvas();
+        
+        //curSprite = sprite[currFrame];
+        //console.log(`Кадр: ${currFrame}`);
+        //currFrame++;
+        //reDrawCanvas();
         //console.log( elem.intersectionRatio);
-        console.log(`${checkintersectionRatio(elem.intersectionRatio, intersections3)}`);
+        console.log(`${checkintersectionRatio(elem.intersectionRatio, intersections3, elem.boundingClientRect.y)}`);
         //console.log(elem);
       }       
       // console.log(checkintersectionRatio(elem.intersectionRatio));
@@ -82,11 +92,13 @@ const callback4 = function (entries, observer) {
   entries.forEach(function (elem, index) {    
       // проверяем пришло ли сообщение от активного окна
       if(elem.target.classList.contains('displayed')){
-        currFrame++;
-        curSprite = sprite[currFrame];
-        reDrawCanvas();
+        
+        //curSprite = sprite[currFrame];
+        //console.log(`Кадр: ${currFrame}`);
+        //currFrame++;
+        //reDrawCanvas();
         //console.log( elem.intersectionRatio);
-        console.log(`${checkintersectionRatio(elem.intersectionRatio, intersections4)}`);
+        console.log(`${checkintersectionRatio(elem.intersectionRatio, intersections4, elem.boundingClientRect.y)}`);
         //console.log(elem);
       }       
       // console.log(checkintersectionRatio(elem.intersectionRatio));
@@ -95,7 +107,7 @@ const callback4 = function (entries, observer) {
 const observer4 = new IntersectionObserver(callback4, options4);
 //////////////////////////////////////////////////////////////
 
-/////////////////// Хэндлер5 для пересечения части экрана
+//#region /////////////////// Хэндлер5 для пересечения части экрана
 const intersections5 = [0.22, 0.38, 0.54, 0.7, 0.86];
 const options5 = {
   threshold: intersections5
@@ -104,18 +116,20 @@ const callback5 = function (entries, observer) {
   entries.forEach(function (elem, index) {    
       // проверяем пришло ли сообщение от активного окна
       if(elem.target.classList.contains('displayed')){
-        currFrame++;
-        curSprite = sprite[currFrame];
-        reDrawCanvas();
+        
+        //curSprite = sprite[currFrame];
+        //console.log(`Кадр: ${currFrame}`);
+        //currFrame++;
+        //reDrawCanvas();
         //console.log( elem.intersectionRatio);
-        console.log(`${checkintersectionRatio(elem.intersectionRatio, intersections5)}`);
+        console.log(`${checkintersectionRatio(elem.intersectionRatio, intersections5, elem.boundingClientRect.y)}`);
         //console.log(elem);
       }       
       // console.log(checkintersectionRatio(elem.intersectionRatio));
   });
 };
 const observer5 = new IntersectionObserver(callback5, options5);
-//////////////////////////////////////////////////////////////
+//#endregion//////////////////////////////////////////////////////////////
 
 
 
@@ -127,26 +141,37 @@ targets.forEach(p => { observer3.observe(p) });
 targets.forEach(p => { observer4.observe(p) });
 targets.forEach(p => { observer5.observe(p) });
 
-function checkintersectionRatio(val, array) {
+function checkintersectionRatio(val, array, y_Pos) {
 let arr = [];
  array.forEach(function (elem, index) {
-    arr[index] = Math.abs(array[index]-val) ;     
-    
+    arr[index] = Math.abs(array[index]-val);     
   });
-  // находим минимальное
-  
-  let reversed = arr.reverse();
-  let minimumVal = reversed[0];
+  // находим минимальное  
+  //let reversed = arr.reverse();
+  let minimumVal = arr[0];
   let indexMin = 0;
-reversed.forEach(function (elem, index) {
-    if(reversed[index] < minimumVal) {
-    minimumVal = reversed[index]; // если находим другое минимальное число, то сохраняем в переменную
-    indexMin = index;
-    
-  }
- // console.log(reversed);
+arr.forEach(function (elem, index) {
+    if(arr[index] < minimumVal) {
+    minimumVal = arr[index]; // если находим другое минимальное число, то сохраняем в переменную
+    indexMin = index;    
+  } 
   });
-return indexMin;
+   //console.log(`index ${indexMin}`);
+   checkScrollDirection (y_Pos);
+   // возвращаем реальую величину процента видимости экрана   
+return array[indexMin];
+}
+
+function checkScrollDirection (rate){
+ if(  LastItersectionRatio - rate > 0){
+   direction = 'down';   
+  //console.log('down')
+ }
+ else{
+  direction = 'up';
+ }
+ LastItersectionRatio = rate;
+ console.log(direction);
 }
 
 
