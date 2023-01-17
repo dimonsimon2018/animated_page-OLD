@@ -4,6 +4,7 @@ let direction; // направление прокрутки
 let LastItersectionRatio; // последняя координата Y элемента
 let intersectionPositions = [];
 let intersectionPositionsReversed = [];
+let isWindowLoaded = false;
 /////////////////// Хэндлер для пересечения полного экрана
 const options = {
   threshold: [1]
@@ -11,9 +12,10 @@ const options = {
 const callback = function (entries, observer) {
   // обнуляем номер кадра
 
-  //console.log(`Текущий номер кадра: ${currFrame}`);
+  console.log(`Текущий номер кадра (полное окно): ${currFrame}`);
   currFrame = 0;
   LastItersectionRatio = 0;
+  numOfSnapPos = 0;
   entries.forEach(function (elem, index) {
 
     if (elem.isIntersecting) {
@@ -33,7 +35,7 @@ const callback = function (entries, observer) {
 const observer = new IntersectionObserver(callback, options);
 //////////////////////////////////////////////////////////////
 
-/////////////////// Хэндлер2 для пересечения части экрана
+//#region  Хэндлер2 для пересечения части экрана ///////////////////////
 const intersections2 = [0.1, 0.26, 0.42, 0.58, 0.74];
 const options2 = {
   threshold: intersections2
@@ -44,26 +46,28 @@ const callback2 = function (entries, observer) {
     if (elem.target.classList.contains('displayed')) {
       checkScrollDirection(elem.boundingClientRect.y);
       console.log(direction);
-      checkintersectionRatio(elem.intersectionRatio, intersections2);
-      curSprite = sprite[numOfSnapPos];
-      console.log(`Кадр: ${numOfSnapPos}`);
+      //checkintersectionRatio(elem.intersectionRatio, intersections2);
+      //curSprite = sprite[numOfSnapPos];
+      //console.log(`Кадр: ${numOfSnapPos}`);
 
       // определяем направление движения
       //console.log();
 
 
       // reDrawCanvas();
-
-      console.log(`${checkintersectionRatio(elem.intersectionRatio, intersections2)}`);
+console.log(elem.intersectionRatio);
+     console.log(`${checkintersectionRatio(elem.intersectionRatio, intersections2)}`);
       //console.log(elem);
+      //checkintersectionRatio(elem.intersectionRatio, intersections2);
+      calcFrameNum();
     }
     // console.log(checkintersectionRatio(elem.intersectionRatio));
   });
 };
 const observer2 = new IntersectionObserver(callback2, options2);
-//////////////////////////////////////////////////////////////
+//#endregion ///////////////////////////////////////////////////////////
 
-/////////////////// Хэндлер3 для пересечения части экрана
+//#region  Хэндлер3 для пересечения части экрана ///////////////////////
 const intersections3 = [0.14, 0.30, 0.46, 0.62, 0.78];
 const options3 = {
   threshold: intersections3
@@ -74,9 +78,9 @@ const callback3 = function (entries, observer) {
     if (elem.target.classList.contains('displayed')) {
       checkScrollDirection(elem.boundingClientRect.y);
       console.log(direction);
-      checkintersectionRatio(elem.intersectionRatio, intersections2);
-      curSprite = sprite[numOfSnapPos];
-      console.log(`Кадр: ${numOfSnapPos}`);
+      //checkintersectionRatio(elem.intersectionRatio, intersections2);
+      //curSprite = sprite[numOfSnapPos];
+      //console.log(`Кадр: ${numOfSnapPos}`);
 
       //curSprite = sprite[currFrame];
       //console.log(`Кадр: ${currFrame}`);
@@ -84,18 +88,19 @@ const callback3 = function (entries, observer) {
       //reDrawCanvas();
       //console.log( elem.intersectionRatio);
 
-
-
-      console.log(`${checkintersectionRatio(elem.intersectionRatio, intersections3)}`);
+console.log(elem.intersectionRatio);
+      checkintersectionRatio(elem.intersectionRatio, intersections3);
+      //console.log(`${checkintersectionRatio(elem.intersectionRatio, intersections3)}`);
       //console.log(elem);
+      calcFrameNum();
     }
 
   });
 };
 const observer3 = new IntersectionObserver(callback3, options3);
-//////////////////////////////////////////////////////////////
+//#endregion ///////////////////////////////////////////////////////////
 
-/////////////////// Хэндлер4 для пересечения части экрана
+//#region  Хэндлер4 для пересечения части экрана ///////////////////////
 const intersections4 = [0.18, 0.34, 0.5, 0.66, 0.82];
 const options4 = {
   threshold: intersections4
@@ -106,22 +111,23 @@ const callback4 = function (entries, observer) {
     if (elem.target.classList.contains('displayed')) {
       checkScrollDirection(elem.boundingClientRect.y);
       console.log(direction);
-      checkintersectionRatio(elem.intersectionRatio, intersections2);
-      curSprite = sprite[numOfSnapPos];
-      console.log(`Кадр: ${numOfSnapPos}`);
+      //checkintersectionRatio(elem.intersectionRatio, intersections2);
+      //curSprite = sprite[numOfSnapPos];
+      //console.log(`Кадр: ${numOfSnapPos}`);
 
-
-
-      console.log(`${checkintersectionRatio(elem.intersectionRatio, intersections4)}`);
+console.log(elem.intersectionRatio);
+      checkintersectionRatio(elem.intersectionRatio, intersections4)
+      //console.log(`${checkintersectionRatio(elem.intersectionRatio, intersections4)}`);
       //console.log(elem);
+      calcFrameNum();
     }
 
   });
 };
 const observer4 = new IntersectionObserver(callback4, options4);
-//////////////////////////////////////////////////////////////
+//#endregion ///////////////////////////////////////////////////////////
 
-//#region /////////////////// Хэндлер5 для пересечения части экрана
+//#region  Хэндлер5 для пересечения части экрана ///////////////////////
 const intersections5 = [0.22, 0.38, 0.54, 0.7, 0.86];
 const options5 = {
   threshold: intersections5
@@ -132,25 +138,26 @@ const callback5 = function (entries, observer) {
     if (elem.target.classList.contains('displayed')) {
       checkScrollDirection(elem.boundingClientRect.y);
       console.log(direction);
-      checkintersectionRatio(elem.intersectionRatio, intersections2);
-      curSprite = sprite[numOfSnapPos];
-      console.log(`Кадр: ${numOfSnapPos}`);
+      //checkintersectionRatio(elem.intersectionRatio, intersections2);
+      //curSprite = sprite[numOfSnapPos];
+      //console.log(`Кадр: ${numOfSnapPos}`);
 
       //reDrawCanvas();
       //console.log( elem.intersectionRatio);
 
 
-      //console.log(`Кадр: ${currFrame}`);
+      console.log(elem.intersectionRatio);
 
-
-      console.log(`${checkintersectionRatio(elem.intersectionRatio, intersections5)}`);
+      checkintersectionRatio(elem.intersectionRatio, intersections5);
+      //console.log(`${checkintersectionRatio(elem.intersectionRatio, intersections5)}`);
       //console.log(elem);
+      calcFrameNum();
     }
 
   });
 };
 const observer5 = new IntersectionObserver(callback5, options5);
-//#endregion//////////////////////////////////////////////////////////////
+//#endregion ///////////////////////////////////////////////////////////
 
 
 
@@ -162,9 +169,28 @@ targets.forEach(p => { observer3.observe(p) });
 targets.forEach(p => { observer2.observe(p) });
 targets.forEach(p => { observer.observe(p) });
 
-function calcFrameNumber() {
+function calcFrameNum(){
+  if(isWindowLoaded === true){
+    //Производим вычисления после загрузки документа, чтобы исключить неужные события INTERSECTION
+ //console.log(`Функция calcFrameNum, isWindowLoaded в ${isWindowLoaded}`);
+      if(direction === 'down'){
+        currFrame = numOfSnapPos;
+      }
+      else{
+        currFrame = numOfSnapPos;
+      }
+ 
+ 
+ 
+    
+  console.log(`currFrame: ${currFrame}`);
 
+  
+  }
 }
+
+
+
 let numOfSnapPos;
 function checkintersectionRatio(val, array) {
   let arr = [];
@@ -193,12 +219,12 @@ function checkintersectionRatio(val, array) {
   intersectionPositionsReversed.forEach(function (elem, index) {
     //console.log('гоняем цикл');
     if (intersectionPositionsReversed[index] === array[indexMin]) {
-      // console.log(index);
+       //console.log(array[indexMin]);
       // console.log('условие цикла выполнено');
       numOfSnapPos = index;
     }
   });
-  //return numOfSnapPos;
+  return numOfSnapPos;
 }
 
 
@@ -311,11 +337,15 @@ function unionArrays() {
 }
 
 
+
 window.onload = function (e) {
   console.log("Событие window.onload");
 
   // Canvas.init();
   checkWindowSize();
+  //console.log(`Переменная isWindowLoaded в ${isWindowLoaded}`);
+  isWindowLoaded = true;
+  //console.log(`Устанавливаем переменную isWindowLoaded в ${isWindowLoaded}`);
   currFrame = 0;
 
 
