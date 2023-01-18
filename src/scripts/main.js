@@ -1,14 +1,29 @@
 let currWindow; // номер текущего окна
+let targets; // окна отслеживаемые IntersectionObserver
+const framesPerSecond = 24;
 
-/////////////////// Хэндлер для пересечения полного экрана
+
+
+// Use requestAnimationFrame for smooth playback
+function scrollPlay(){  
+  console.log(targets[currWindow].getBoundingClientRect().y);
+  window.requestAnimationFrame(scrollPlay);
+}
+
+
+window.addEventListener('load', windowLoad);
+
+function windowLoad (){ 
+  targets = document.querySelectorAll('.content__snap-page');  
+ checkWindowSize();
+//#region /////////////////// Хэндлер для пересечения полного экрана
 const options = {
   threshold: [1]
 };
 const callback = function (entries, observer) {
+  // запускаем обработку если уже прогружена страница
 
-
-  entries.forEach(function (elem, index) {
-
+entries.forEach(function (elem, index) {
     if (elem.isIntersecting) {
       // чистим классы у остальных элементов
       targets.forEach(function (e, i) {
@@ -17,20 +32,75 @@ const callback = function (entries, observer) {
           e.classList.remove('displayed');
         }
       });
-
       elem.target.classList.add("displayed");
     }
     checkDisplayedWindow();
-  });
+  }); 
 };
 const observer = new IntersectionObserver(callback, options);
-//////////////////////////////////////////////////////////////
-
-
-
-const targets = document.querySelectorAll('.content__snap-page');
-
 targets.forEach(p => { observer.observe(p) });
+//console.log(targets[currWindow].getBoundingClientRect().y);
+//console.log('windowLoad');
+//#endregion//////////////////////////////////////////////////////////////
+digitsCountersAnimate(190);
+
+}
+
+function digitsCountersAnimate(numSteps){
+  let startTimesstamp = null;
+  const duration = framesPerSecond * numSteps;
+  let startValue = numSteps;
+  let startPosition = 10;
+  const step = (timestamp) => {
+ if(!startTimesstamp) startTimesstamp = timestamp;
+  const progress = Math.min((timestamp-startTimesstamp)/duration,1);
+  //curSprite = sprite[Math.floor(progress*(startPosition+startValue))];   
+
+      //reDrawCanvas(); 
+  console.log(Math.floor( progress*( startValue + startPosition)));
+  if(progress < 1){
+    window.requestAnimationFrame(step);
+  }
+
+  
+  
+};
+ window.requestAnimationFrame(step);
+  
+//const relativeProgress = runtime / duration;
+
+ 
+/*  const animate = (timestamp) => {
+  if (!starttime) {
+    starttime = timestamp;
+  }
+  const runtime = timestamp - starttime;
+  
+  if (runtime < duration) {
+    
+      requestAnimationFrame(animate);
+  } else{startValue++;
+    console.log(startValue);}
+  
+  }
+  if(numSteps>startValue){
+requestAnimationFrame(animate);
+  }
+    */
+ 
+ 
+
+/* let startValue = 0;
+let startPosition = 0;
+  function move(){
+  startValue++;
+  if(numSteps>startValue)
+  requestAnimationFrame(move);
+  console.log(startValue);
+  }
+requestAnimationFrame(move); */
+}
+
 
 
 
@@ -40,8 +110,11 @@ function checkDisplayedWindow() {
     if (elem.classList.contains('displayed')) {
       currWindow = index;
       // событие смены номера окна
-      console.log(`Текущее окно: ${currWindow}`);
-      if (currWindow === 0) {
+     
+console.log(`Текущее окно: ${currWindow}`);
+     
+      
+    /*   if (currWindow === 0) {
         curSprite = sprite[0];
       };
       if (currWindow === 1) {
@@ -72,9 +145,9 @@ function checkDisplayedWindow() {
         curSprite = sprite[180];
       };
 
-      reDrawCanvas();
+      reDrawCanvas(); */
 
-      //animationBG.setAttribute('height', '350');    
+         
 
     }
   });
@@ -101,11 +174,7 @@ function createSprites() {
 
 
 
-window.onload = function (e) {
-  //console.log("Событие window.onload");
-  // Canvas.init();
-  checkWindowSize();
-}
+
 // вешаем прослушку изменения ширины окна
 window.addEventListener('resize', checkWindowSize);
 
