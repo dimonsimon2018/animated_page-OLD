@@ -1,10 +1,18 @@
 let currWindow; // номер текущего окна
+let currFrame; // номер текущего кадра
+let direction; // направление прокрутки
+let LastItersectionRatio; // последняя координата Y элемента
+let intersectionPositions = [];
+let intersectionPositionsReversed = [];
 /////////////////// Хэндлер для пересечения полного экрана
 const options = {
   threshold: [1]
 };
 const callback = function (entries, observer) {
 
+  //console.log(`Текущий номер кадра: ${currFrame}`);
+  currFrame = 0;
+  LastItersectionRatio = 0;
   entries.forEach(function (elem, index) {
 
     if (elem.isIntersecting) {
@@ -24,10 +32,189 @@ const callback = function (entries, observer) {
 const observer = new IntersectionObserver(callback, options);
 //////////////////////////////////////////////////////////////
 
+/////////////////// Хэндлер2 для пересечения части экрана
+const intersections2 = [0.1, 0.26, 0.42, 0.58, 0.74];
+const options2 = {
+  threshold: intersections2
+};
+const callback2 = function (entries, observer) {
+  entries.forEach(function (elem, index) {
+    // проверяем пришло ли сообщение от активного окна
+    if (elem.target.classList.contains('displayed')) {
+      checkScrollDirection(elem.boundingClientRect.y);
+      console.log(direction);
+      checkintersectionRatio(elem.intersectionRatio, intersections2);
+      curSprite = sprite[numOfSnapPos];
+      console.log(`Кадр: ${numOfSnapPos}`);
+
+      // определяем направление движения
+      //console.log();
+
+
+      // reDrawCanvas();
+
+      console.log(`${checkintersectionRatio(elem.intersectionRatio, intersections2)}`);
+      //console.log(elem);
+    }
+    // console.log(checkintersectionRatio(elem.intersectionRatio));
+  });
+};
+const observer2 = new IntersectionObserver(callback2, options2);
+//////////////////////////////////////////////////////////////
+
+/////////////////// Хэндлер3 для пересечения части экрана
+const intersections3 = [0.14, 0.30, 0.46, 0.62, 0.78];
+const options3 = {
+  threshold: intersections3
+};
+const callback3 = function (entries, observer) {
+  entries.forEach(function (elem, index) {
+    // проверяем пришло ли сообщение от активного окна
+    if (elem.target.classList.contains('displayed')) {
+      checkScrollDirection(elem.boundingClientRect.y);
+      console.log(direction);
+      checkintersectionRatio(elem.intersectionRatio, intersections2);
+      curSprite = sprite[numOfSnapPos];
+      console.log(`Кадр: ${numOfSnapPos}`);
+
+      //curSprite = sprite[currFrame];
+      //console.log(`Кадр: ${currFrame}`);
+      //currFrame++;
+      //reDrawCanvas();
+      //console.log( elem.intersectionRatio);
+
+
+
+      console.log(`${checkintersectionRatio(elem.intersectionRatio, intersections3)}`);
+      //console.log(elem);
+    }
+
+  });
+};
+const observer3 = new IntersectionObserver(callback3, options3);
+//////////////////////////////////////////////////////////////
+
+/////////////////// Хэндлер4 для пересечения части экрана
+const intersections4 = [0.18, 0.34, 0.5, 0.66, 0.82];
+const options4 = {
+  threshold: intersections4
+};
+const callback4 = function (entries, observer) {
+  entries.forEach(function (elem, index) {
+    // проверяем пришло ли сообщение от активного окна
+    if (elem.target.classList.contains('displayed')) {
+      checkScrollDirection(elem.boundingClientRect.y);
+      console.log(direction);
+      checkintersectionRatio(elem.intersectionRatio, intersections2);
+      curSprite = sprite[numOfSnapPos];
+      console.log(`Кадр: ${numOfSnapPos}`);
+
+
+
+      console.log(`${checkintersectionRatio(elem.intersectionRatio, intersections4)}`);
+      //console.log(elem);
+    }
+
+  });
+};
+const observer4 = new IntersectionObserver(callback4, options4);
+//////////////////////////////////////////////////////////////
+
+//#region /////////////////// Хэндлер5 для пересечения части экрана
+const intersections5 = [0.22, 0.38, 0.54, 0.7, 0.86];
+const options5 = {
+  threshold: intersections5
+};
+const callback5 = function (entries, observer) {
+  entries.forEach(function (elem, index) {
+    // проверяем пришло ли сообщение от активного окна
+    if (elem.target.classList.contains('displayed')) {
+      checkScrollDirection(elem.boundingClientRect.y);
+      console.log(direction);
+      checkintersectionRatio(elem.intersectionRatio, intersections2);
+      curSprite = sprite[numOfSnapPos];
+      console.log(`Кадр: ${numOfSnapPos}`);
+
+      //reDrawCanvas();
+      //console.log( elem.intersectionRatio);
+
+
+      //console.log(`Кадр: ${currFrame}`);
+
+
+      console.log(`${checkintersectionRatio(elem.intersectionRatio, intersections5)}`);
+      //console.log(elem);
+    }
+
+  });
+};
+const observer5 = new IntersectionObserver(callback5, options5);
+//#endregion//////////////////////////////////////////////////////////////
+
+
+
 
 const targets = document.querySelectorAll('.content__snap-page');
-
+targets.forEach(p => { observer5.observe(p) });
+targets.forEach(p => { observer4.observe(p) });
+targets.forEach(p => { observer3.observe(p) });
+targets.forEach(p => { observer2.observe(p) });
 targets.forEach(p => { observer.observe(p) });
+
+function calcFrameNumber() {
+
+}
+let numOfSnapPos;
+function checkintersectionRatio(val, array) {
+  let arr = [];
+
+  array.forEach(function (elem, index) {
+    arr[index] = Math.abs(array[index] - val);
+  });
+  // находим минимальное  
+  //let reversed = arr.reverse();
+
+  let indexMin = 0;
+
+  let minimumVal = arr[0];
+  arr.forEach(function (elem, index) {
+    if (arr[index] < minimumVal) {
+      minimumVal = arr[index]; // если находим другое минимальное число, то сохраняем в переменную
+      indexMin = index;
+    }
+  });
+  //console.log(`index ${indexMin}`);
+  //checkScrollDirection (y_Pos);
+  // разворачиваем массив в случае прокрутки вверх
+
+  // возвращаем реальую величину процента видимости экрана 
+
+  intersectionPositionsReversed.forEach(function (elem, index) {
+    //console.log('гоняем цикл');
+    if (intersectionPositionsReversed[index] === array[indexMin]) {
+      // console.log(index);
+      // console.log('условие цикла выполнено');
+      numOfSnapPos = index;
+    }
+  });
+  //return numOfSnapPos;
+}
+
+
+function checkScrollDirection(rate) {
+  if (LastItersectionRatio - rate > 0) {
+    direction = 'down';
+    //console.log('down')
+  }
+  else {
+    direction = 'up';
+  }
+  LastItersectionRatio = rate;
+  //console.log(direction);
+}
+
+
+
 
 
 
@@ -103,10 +290,18 @@ function createSprites() {
 
 
 
+
 window.onload = function (e) {
   //console.log("Событие window.onload");
   // Canvas.init();
   checkWindowSize();
+  currFrame = 0;
+
+
+
+
+
+
 }
 // вешаем прослушку изменения ширины окна
 window.addEventListener('resize', checkWindowSize);
