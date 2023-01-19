@@ -1,6 +1,7 @@
 let currWindow; // номер текущего окна
 let targets; // окна отслеживаемые IntersectionObserver
-const framesPerSecond = 10;
+const FRAMESPERSECOND = 20;
+const NUMOFFRAMES = 191;
 
 
 
@@ -42,7 +43,7 @@ function windowLoad() {
   //console.log(targets[currWindow].getBoundingClientRect().y);
   //console.log('windowLoad');
   //#endregion//////////////////////////////////////////////////////////////
-  moviePlayer(0, 190);
+  moviePlayer(190, 0);
 
 }
 
@@ -53,7 +54,7 @@ function moviePlayer(startFrame, endFrame) {
   // проверяем направление движения анимации
   if (startFrame - endFrame > 0) { dir = false; } else { dir = true; }
   let numSteps = Math.abs(endFrame - startFrame);
-  const duration = (1000 / framesPerSecond) * numSteps;
+  const duration = (1000 / FRAMESPERSECOND) * numSteps;
   let startValue = numSteps;
 
 
@@ -177,7 +178,7 @@ reDrawCanvas();
 
 
 function createSprites() {
-  for (let i = 0; i < 191; i++) {
+  for (let i = 0; i < NUMOFFRAMES; i++) {
     sprite[i] = new Image();
     sprite[i].src = `img/sequence/Section1_${i}.jpg`;
   }
