@@ -1,11 +1,11 @@
 let currWindow; // номер текущего окна
 let targets; // окна отслеживаемые IntersectionObserver
-const framesPerSecond = 24;
+const framesPerSecond = 10;
 
 
 
 // Use requestAnimationFrame for smooth playback
-function scrollPlay(){  
+function scrollPlay() {
   console.log(targets[currWindow].getBoundingClientRect().y);
   window.requestAnimationFrame(scrollPlay);
 }
@@ -13,92 +13,104 @@ function scrollPlay(){
 
 window.addEventListener('load', windowLoad);
 
-function windowLoad (){ 
-  targets = document.querySelectorAll('.content__snap-page');  
- checkWindowSize();
-//#region /////////////////// Хэндлер для пересечения полного экрана
-const options = {
-  threshold: [1]
-};
-const callback = function (entries, observer) {
-  // запускаем обработку если уже прогружена страница
+function windowLoad() {
+  targets = document.querySelectorAll('.content__snap-page');
+  checkWindowSize();
+  //#region /////////////////// Хэндлер для пересечения полного экрана
+  const options = {
+    threshold: [1]
+  };
+  const callback = function (entries, observer) {
+    // запускаем обработку если уже прогружена страница
 
-entries.forEach(function (elem, index) {
-    if (elem.isIntersecting) {
-      // чистим классы у остальных элементов
-      targets.forEach(function (e, i) {
+    entries.forEach(function (elem, index) {
+      if (elem.isIntersecting) {
+        // чистим классы у остальных элементов
+        targets.forEach(function (e, i) {
 
-        if (e.classList.contains('displayed')) {
-          e.classList.remove('displayed');
-        }
-      });
-      elem.target.classList.add("displayed");
-    }
-    checkDisplayedWindow();
-  }); 
-};
-const observer = new IntersectionObserver(callback, options);
-targets.forEach(p => { observer.observe(p) });
-//console.log(targets[currWindow].getBoundingClientRect().y);
-//console.log('windowLoad');
-//#endregion//////////////////////////////////////////////////////////////
-digitsCountersAnimate(190);
+          if (e.classList.contains('displayed')) {
+            e.classList.remove('displayed');
+          }
+        });
+        elem.target.classList.add("displayed");
+      }
+      checkDisplayedWindow();
+    });
+  };
+  const observer = new IntersectionObserver(callback, options);
+  targets.forEach(p => { observer.observe(p) });
+  //console.log(targets[currWindow].getBoundingClientRect().y);
+  //console.log('windowLoad');
+  //#endregion//////////////////////////////////////////////////////////////
+  moviePlayer(0, 190);
 
 }
 
-function digitsCountersAnimate(numSteps){
+function moviePlayer(startFrame, endFrame) {
   let startTimesstamp = null;
-  const duration = framesPerSecond * numSteps;
+  let res = null;
+  let dir = null;
+  // проверяем направление движения анимации
+  if (startFrame - endFrame > 0) { dir = false; } else { dir = true; }
+  let numSteps = Math.abs(endFrame - startFrame);
+  const duration = (1000 / framesPerSecond) * numSteps;
   let startValue = numSteps;
-  let startPosition = 10;
+
+
   const step = (timestamp) => {
- if(!startTimesstamp) startTimesstamp = timestamp;
-  const progress = Math.min((timestamp-startTimesstamp)/duration,1);
-  //curSprite = sprite[Math.floor(progress*(startPosition+startValue))];   
+    if (!startTimesstamp) startTimesstamp = timestamp;
+    const progress = Math.min((timestamp - startTimesstamp) / duration, 1);
+    if (dir) {
+      res = Math.floor(progress * (startValue) + startFrame);
+    } else {
+      res = Math.floor((1 - progress) * (startValue) + endFrame);
+    }
+    curSprite = sprite[res];
 
-      //reDrawCanvas(); 
-  console.log(Math.floor( progress*( startValue + startPosition)));
-  if(progress < 1){
-    window.requestAnimationFrame(step);
-  }
+    reDrawCanvas();
+    console.log(res);
+    //console.log(dir);
+    if (progress < 1) {
+      window.requestAnimationFrame(step);
+    }
 
-  
-  
-};
- window.requestAnimationFrame(step);
-  
-//const relativeProgress = runtime / duration;
 
- 
-/*  const animate = (timestamp) => {
-  if (!starttime) {
-    starttime = timestamp;
-  }
-  const runtime = timestamp - starttime;
-  
-  if (runtime < duration) {
+
+  };
+  window.requestAnimationFrame(step);
+
+  //const relativeProgress = runtime / duration;
+
+
+  /*  const animate = (timestamp) => {
+    if (!starttime) {
+      starttime = timestamp;
+    }
+    const runtime = timestamp - starttime;
     
-      requestAnimationFrame(animate);
-  } else{startValue++;
-    console.log(startValue);}
-  
-  }
-  if(numSteps>startValue){
-requestAnimationFrame(animate);
-  }
-    */
- 
- 
+    if (runtime < duration) {
+      
+        requestAnimationFrame(animate);
+    } else{startValue++;
+      console.log(startValue);}
+    
+    }
+    if(numSteps>startValue){
+  requestAnimationFrame(animate);
+    }
+      */
 
-/* let startValue = 0;
-let startPosition = 0;
-  function move(){
-  startValue++;
-  if(numSteps>startValue)
-  requestAnimationFrame(move);
-  console.log(startValue);
-  }
-requestAnimationFrame(move); */
+
+
+  /* let startValue = 0;
+  let startPosition = 0;
+    function move(){
+    startValue++;
+    if(numSteps>startValue)
+    requestAnimationFrame(move);
+    console.log(startValue);
+    }
+  requestAnimationFrame(move); */
 }
 
 
@@ -110,44 +122,44 @@ function checkDisplayedWindow() {
     if (elem.classList.contains('displayed')) {
       currWindow = index;
       // событие смены номера окна
-     
-console.log(`Текущее окно: ${currWindow}`);
-     
-      
-    /*   if (currWindow === 0) {
-        curSprite = sprite[0];
-      };
-      if (currWindow === 1) {
-        curSprite = sprite[20];
-      };
-      if (currWindow === 2) {
-        curSprite = sprite[40];
-      };
-      if (currWindow === 3) {
-        curSprite = sprite[60];
-      };
-      if (currWindow === 4) {
-        curSprite = sprite[80];
-      };
-      if (currWindow === 5) {
-        curSprite = sprite[100];
-      };
-      if (currWindow === 6) {
-        curSprite = sprite[120];
-      };
-      if (currWindow === 7) {
-        curSprite = sprite[140];
-      };
-      if (currWindow === 8) {
-        curSprite = sprite[160];
-      };
-      if (currWindow === 9) {
-        curSprite = sprite[180];
-      };
 
-      reDrawCanvas(); */
+      console.log(`Текущее окно: ${currWindow}`);
 
-         
+
+      /*   if (currWindow === 0) {
+          curSprite = sprite[0];
+        };
+        if (currWindow === 1) {
+          curSprite = sprite[20];
+        };
+        if (currWindow === 2) {
+          curSprite = sprite[40];
+        };
+        if (currWindow === 3) {
+          curSprite = sprite[60];
+        };
+        if (currWindow === 4) {
+          curSprite = sprite[80];
+        };
+        if (currWindow === 5) {
+          curSprite = sprite[100];
+        };
+        if (currWindow === 6) {
+          curSprite = sprite[120];
+        };
+        if (currWindow === 7) {
+          curSprite = sprite[140];
+        };
+        if (currWindow === 8) {
+          curSprite = sprite[160];
+        };
+        if (currWindow === 9) {
+          curSprite = sprite[180];
+        };
+  
+        reDrawCanvas(); */
+
+
 
     }
   });
