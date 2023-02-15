@@ -6,11 +6,11 @@ const NUMOFFRAMES = 191;
 
 
 // Use requestAnimationFrame for smooth playback
-function scrollPlay() {
+/* function scrollPlay() {
   console.log(targets[currWindow].getBoundingClientRect().y);
   window.requestAnimationFrame(scrollPlay);
 }
-
+ */
 
 window.addEventListener('load', windowLoad);
 
@@ -43,7 +43,9 @@ function windowLoad() {
   //console.log(targets[currWindow].getBoundingClientRect().y);
   //console.log('windowLoad');
   //#endregion//////////////////////////////////////////////////////////////
-  moviePlayer(190, 0);
+
+  // запускаем анимацию для проверки
+  moviePlayer(0, 190);
 
 }
 
@@ -69,7 +71,9 @@ function moviePlayer(startFrame, endFrame) {
     curSprite = sprite[res];
 
     reDrawCanvas();
-    console.log(res);
+    // показуем текущий спрайт
+    
+   // console.log(res);
     //console.log(dir);
     if (progress < 1) {
       window.requestAnimationFrame(step);
