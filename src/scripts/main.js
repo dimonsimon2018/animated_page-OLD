@@ -4,8 +4,8 @@ let targets; // окна отслеживаемые IntersectionObserver
 const FRAMESPERSECOND = 20;
 const NUMOFFRAMES = 191;
 let sprite = []; // массив обьектов кадров
-let curSprite = sprite[0]; // текущий обьект кадра
-
+let curSprite; // текущий обьект кадра
+let curSpriteNum = 0; // текущий номер кадра
 
 
 
@@ -54,7 +54,7 @@ function moviePlayer(startFrame, endFrame) {
   let res = null;
   let dir = null;
   // проверяем направление движения анимации
-  if (startFrame - endFrame > 0) { dir = false; } else { dir = true; }
+  if (startFrame - endFrame > 0) { dir = false; } else { dir = true; };
   let numSteps = Math.abs(endFrame - startFrame);
   const duration = (1000 / FRAMESPERSECOND) * numSteps;
   let startValue = numSteps;
@@ -68,9 +68,14 @@ function moviePlayer(startFrame, endFrame) {
     } else {
       res = Math.floor((1 - progress) * (startValue) + endFrame);
     }
-    // Выполняем рекурсию только если токен в TRUE
+    // Выполняем рекурсию только если токен в TRUE и если есть разница в количестве кадров
     if(isMovieEnable===true){
-      curSprite = sprite[res];
+      // выполняем проверку на разницу кадров, если он один то его и показываем
+      if(startFrame-endFrame!=0){
+        curSpriteNum = res;
+      } else {curSpriteNum = startFrame; }
+      
+      curSprite = sprite[curSpriteNum];
       reDrawCanvas();    
       if (progress < 1 ) {
           window.requestAnimationFrame(step);
@@ -131,9 +136,8 @@ function checkDisplayedWindow(isFullHeight) {
       console.log(`Текущее окно: ${currWindow} , полная высота: ${isFullHeight}`);
   // запускаем анимацию для проверки
   
-    if (currWindow === 0) {
-      console.log("Вызов плеера");
-          moviePlayer(0, 190);
+    if (currWindow === 0) {    
+          moviePlayer(curSpriteNum, 190);
     };
       /*   
         
