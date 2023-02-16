@@ -1,8 +1,10 @@
 let currWindow; // номер текущего окна
+let isMovieEnable; // разрешить воспроизведение видео
 let targets; // окна отслеживаемые IntersectionObserver
 const FRAMESPERSECOND = 20;
 const NUMOFFRAMES = 191;
-
+let sprite = []; // массив обьектов кадров
+let curSprite = sprite[0]; // текущий обьект кадра
 
 
 
@@ -43,8 +45,7 @@ function windowLoad() {
   //console.log('windowLoad');
   //#endregion//////////////////////////////////////////////////////////////
 
-  // запускаем анимацию для проверки
-  moviePlayer(0, 190);
+
 
 }
 
@@ -67,18 +68,14 @@ function moviePlayer(startFrame, endFrame) {
     } else {
       res = Math.floor((1 - progress) * (startValue) + endFrame);
     }
-    curSprite = sprite[res];
-
-    reDrawCanvas();
-    // показуем текущий спрайт
-    
-   // console.log(res);
-    //console.log(dir);
-    if (progress < 1) {
-      window.requestAnimationFrame(step);
+    // Выполняем рекурсию только если токен в TRUE
+    if(isMovieEnable===true){
+      curSprite = sprite[res];
+      reDrawCanvas();    
+      if (progress < 1 ) {
+          window.requestAnimationFrame(step);
+      }
     }
-
-
 
   };
   window.requestAnimationFrame(step);
@@ -123,16 +120,23 @@ function moviePlayer(startFrame, endFrame) {
 
 function checkDisplayedWindow(isFullHeight) {
   targets.forEach(function (elem, index) {
+
+    // устанавливаем значения токена для видео (запрещаем проигрывание если окно не на 100% высоты)
+    isMovieEnable = isFullHeight;
+
     if (elem.classList.contains('displayed')) {
       currWindow = index;
       // событие смены номера окна
 
       console.log(`Текущее окно: ${currWindow} , полная высота: ${isFullHeight}`);
-
-
-      /*   if (currWindow === 0) {
-          curSprite = sprite[0];
-        };
+  // запускаем анимацию для проверки
+  
+    if (currWindow === 0) {
+      console.log("Вызов плеера");
+          moviePlayer(0, 190);
+    };
+      /*   
+        
         if (currWindow === 1) {
           curSprite = sprite[20];
         };
@@ -162,21 +166,18 @@ function checkDisplayedWindow(isFullHeight) {
         };
   
         reDrawCanvas(); */
-
-
-
     }
   });
 }
 
 const canvas = document.getElementById("snap-sequence-canvas");
 let ctx = canvas.getContext('2d');
-let sprite = [];
+
 ctx.clearRect(0, 0, windowWidth, windowHeight);
 
 
 createSprites();
-let curSprite = sprite[0];
+curSprite = sprite[0];
 reDrawCanvas();
 
 
