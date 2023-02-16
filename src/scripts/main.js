@@ -5,18 +5,16 @@ const NUMOFFRAMES = 191;
 
 
 
-// Use requestAnimationFrame for smooth playback
-/* function scrollPlay() {
-  console.log(targets[currWindow].getBoundingClientRect().y);
-  window.requestAnimationFrame(scrollPlay);
-}
- */
+
+
 
 window.addEventListener('load', windowLoad);
 
 function windowLoad() {
   targets = document.querySelectorAll('.content__snap-page');
   checkWindowSize();
+
+  
   //#region /////////////////// Хэндлер для пересечения полного экрана
   const options = {
     threshold: [1]
@@ -24,7 +22,8 @@ function windowLoad() {
   const callback = function (entries, observer) {
     // запускаем обработку если уже прогружена страница
 
-    entries.forEach(function (elem, index) {
+    entries.forEach(function (elem, index) {    
+
       if (elem.isIntersecting) {
         // чистим классы у остальных элементов
         targets.forEach(function (e, i) {
@@ -35,7 +34,7 @@ function windowLoad() {
         });
         elem.target.classList.add("displayed");
       }
-      checkDisplayedWindow();
+      checkDisplayedWindow(elem.isIntersecting);
     });
   };
   const observer = new IntersectionObserver(callback, options);
@@ -122,13 +121,13 @@ function moviePlayer(startFrame, endFrame) {
 
 
 
-function checkDisplayedWindow() {
+function checkDisplayedWindow(isFullHeight) {
   targets.forEach(function (elem, index) {
     if (elem.classList.contains('displayed')) {
       currWindow = index;
       // событие смены номера окна
 
-      console.log(`Текущее окно: ${currWindow}`);
+      console.log(`Текущее окно: ${currWindow} , полная высота: ${isFullHeight}`);
 
 
       /*   if (currWindow === 0) {
