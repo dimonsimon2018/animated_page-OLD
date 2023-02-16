@@ -1,14 +1,29 @@
 let currWindow; // номер текущего окна
 let isMovieEnable; // разрешить воспроизведение видео
 let targets; // окна отслеживаемые IntersectionObserver
-const FRAMESPERSECOND = 20;
+const FRAMESPERSECOND = 10;
 const NUMOFFRAMES = 191;
 let sprite = []; // массив обьектов кадров
 let curSprite; // текущий обьект кадра
 let curSpriteNum = 0; // текущий номер кадра
 
+/* массив для анимации сайта 
+[
+0 - начало кадра для окна 0, 
+0 - конец кадра для окна 0 и начало для окна 1,
+19 - конец кадра для окна 1 и начало для окна 2,
+38 - конец кадра для окна 2 и начало для окна 3,
+57 - конец кадра для окна 3 и начало для окна 4,
+76 - конец кадра для окна 4 и начало для окна 5,
+95 - конец кадра для окна 5 и начало для окна 6,
+114 - конец кадра для окна 6 и начало для окна 7,
+133 - конец кадра для окна 7 и начало для окна 8,
+152 - конец кадра для окна 8 и начало для окна 9,
+190 - конец кадра для окна 9
+] 
+*/
 
-
+let animationSequence = [0, 0, 19, 38, 57, 76, 95, 114, 133, 152, 190] // 
 
 window.addEventListener('load', windowLoad);
 
@@ -125,53 +140,47 @@ function moviePlayer(startFrame, endFrame) {
 
 function checkDisplayedWindow(isFullHeight) {
   targets.forEach(function (elem, index) {
-
     // устанавливаем значения токена для видео (запрещаем проигрывание если окно не на 100% высоты)
     isMovieEnable = isFullHeight;
 
     if (elem.classList.contains('displayed')) {
       currWindow = index;
       // событие смены номера окна
-
       console.log(`Текущее окно: ${currWindow} , полная высота: ${isFullHeight}`);
-  // запускаем анимацию для проверки
-  
-    if (currWindow === 0) {    
-          moviePlayer(curSpriteNum, 190);
-    };
-      /*   
-        
+        // запускаем анимацию для проверки          
+        if (currWindow === 0) {     
+         moviePlayer(animationSequence[0], animationSequence[1]);
+        };
         if (currWindow === 1) {
-          curSprite = sprite[20];
+          moviePlayer(animationSequence[1], animationSequence[2]);
         };
         if (currWindow === 2) {
-          curSprite = sprite[40];
+          moviePlayer(animationSequence[2], animationSequence[3]);
         };
         if (currWindow === 3) {
-          curSprite = sprite[60];
+          moviePlayer(animationSequence[3], animationSequence[4]);
         };
         if (currWindow === 4) {
-          curSprite = sprite[80];
+          moviePlayer(animationSequence[4], animationSequence[5]);
         };
         if (currWindow === 5) {
-          curSprite = sprite[100];
+          moviePlayer(animationSequence[5], animationSequence[6]);
         };
         if (currWindow === 6) {
-          curSprite = sprite[120];
+          moviePlayer(animationSequence[6], animationSequence[7]);
         };
         if (currWindow === 7) {
-          curSprite = sprite[140];
+          moviePlayer(animationSequence[7], animationSequence[8]);
         };
         if (currWindow === 8) {
-          curSprite = sprite[160];
+          moviePlayer(animationSequence[8], animationSequence[9]);
         };
         if (currWindow === 9) {
-          curSprite = sprite[180];
-        };
-  
-        reDrawCanvas(); */
+         moviePlayer(animationSequence[9], animationSequence[10]);
+        };  
+      
     }
-  });
+  })
 }
 
 const canvas = document.getElementById("snap-sequence-canvas");
@@ -181,7 +190,8 @@ ctx.clearRect(0, 0, windowWidth, windowHeight);
 
 
 createSprites();
-curSprite = sprite[0];
+// Устанавливаем начальный спрайт для фона
+curSprite = sprite[animationSequence[0]];
 reDrawCanvas();
 
 
