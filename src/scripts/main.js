@@ -7,7 +7,7 @@ const NUMOFFRAMES = 191;
 let sprite = []; // массив обьектов кадров
 let curSprite; // текущий обьект кадра
 let curSpriteNum = 0; // текущий номер кадра
-const singleFrameRate = 25; // количество кадров на полную высоту окна когда прокручиваем кадры по одному 
+const singleFrameRate = 15; // количество кадров на полную высоту окна когда прокручиваем кадры по одному
 
 /* массив для анимации сайта 
 [
@@ -29,16 +29,34 @@ let animationSequence = [0, 0, 19, 38, 57, 76, 95, 114, 133, 152, 190] //
 
 window.addEventListener('load', windowLoad);
 
+let pervCalcPos;
 // вешаем прослушку для скролла
 function chekcScrollPos(){
   let item = targets[currWindow];
   let itemPos = item.getBoundingClientRect().top
-  let rate = windowHeight / singleFrameRate;
+  let rate = windowHeight / singleFrameRate; 
+  let calcPos;
+  
   if(Math.abs(itemPos)<windowHeight){
-    console.log(itemPos);
-  }
-  
-  
+    calcPos = -1*Math.ceil(itemPos/rate);
+    if(pervCalcPos!=calcPos){
+      if(pervCalcPos-calcPos>0){
+        console.log("down");
+        curSpriteNum--;
+      }
+      else {
+        console.log("up");
+        curSpriteNum++;
+      }
+      console.log(pervCalcPos-calcPos);
+      pervCalcPos=calcPos;
+      displayDingleFrame();
+    }     
+  }   
+}
+function displayDingleFrame(){
+  curSprite = sprite[curSpriteNum];
+  reDrawCanvas();
 }
 
 function windowLoad() {
@@ -55,7 +73,7 @@ function windowLoad() {
     // запускаем обработку если уже прогружена страница
 
     entries.forEach(function (elem, index) {    
-
+      pervCalcPos = 0;
       if (elem.isIntersecting) {
         // чистим классы у остальных элементов
         targets.forEach(function (e, i) {
@@ -136,9 +154,7 @@ function checkDisplayedWindow(isFullHeight) {
           // проверяем номер текущего кадра
           if(curSpriteNum > animationSequence[index] && curSpriteNum <= animationSequence[index + 1]){
             moviePlayer(curSpriteNum, animationSequence[index + 1]);
-          } else{
-            moviePlayer(animationSequence[index], animationSequence[index + 1]);
-          } 
+          }  
         }          
       }       
     }
