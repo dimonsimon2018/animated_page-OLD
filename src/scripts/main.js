@@ -7,6 +7,7 @@ const NUMOFFRAMES = 191;
 let sprite = []; // массив обьектов кадров
 let curSprite; // текущий обьект кадра
 let curSpriteNum = 0; // текущий номер кадра
+const singleFrameRate = 25; // количество кадров на полную высоту окна когда прокручиваем кадры по одному
 
 /* массив для анимации сайта 
 [
@@ -27,10 +28,12 @@ let curSpriteNum = 0; // текущий номер кадра
 let animationSequence = [0, 0, 19, 38, 57, 76, 95, 114, 133, 152, 190] // 
 
 window.addEventListener('load', windowLoad);
+
 // вешаем прослушку для скролла
 function chekcScrollPos(){
   let item = targets[currWindow];
   let itemPos = item.getBoundingClientRect().top
+  let rate = windowHeight / singleFrameRate;
   if(Math.abs(itemPos)<windowHeight){
     console.log(itemPos);
   }
