@@ -149,34 +149,84 @@ function checkDisplayedWindow(isFullHeight) {
       console.log(`Текущее окно: ${currWindow} , полная высота: ${isFullHeight}`);
         // запускаем анимацию для проверки          
         if (currWindow === 0) {     
-         moviePlayer(animationSequence[0], animationSequence[1]);
+        // проверяем номер текущего кадра
+          if(curSpriteNum > animationSequence[0] && curSpriteNum <= animationSequence[1]){
+            moviePlayer(curSpriteNum, animationSequence[1]);
+          } else{
+            moviePlayer(animationSequence[0], animationSequence[1]);
+          } 
         };
         if (currWindow === 1) {
-          moviePlayer(animationSequence[1], animationSequence[2]);
+          // проверяем номер текущего кадра
+          if(curSpriteNum > animationSequence[1] && curSpriteNum <= animationSequence[2]){
+            moviePlayer(curSpriteNum, animationSequence[2]);
+          } else{
+            moviePlayer(animationSequence[1], animationSequence[2]);
+          }          
         };
         if (currWindow === 2) {
-          moviePlayer(animationSequence[2], animationSequence[3]);
+         // проверяем номер текущего кадра
+          if(curSpriteNum > animationSequence[2] && curSpriteNum <= animationSequence[3]){
+            moviePlayer(curSpriteNum, animationSequence[3]);
+          } else{
+            moviePlayer(animationSequence[2], animationSequence[3]);
+          } 
         };
         if (currWindow === 3) {
-          moviePlayer(animationSequence[3], animationSequence[4]);
+          // проверяем номер текущего кадра
+          if(curSpriteNum > animationSequence[3] && curSpriteNum <= animationSequence[4]){
+            moviePlayer(curSpriteNum, animationSequence[4]);
+          } else{
+            moviePlayer(animationSequence[3], animationSequence[4]);
+          } 
         };
         if (currWindow === 4) {
-          moviePlayer(animationSequence[4], animationSequence[5]);
+         // проверяем номер текущего кадра
+          if(curSpriteNum > animationSequence[4] && curSpriteNum <= animationSequence[5]){
+            moviePlayer(curSpriteNum, animationSequence[5]);
+          } else{
+            moviePlayer(animationSequence[4], animationSequence[5]);
+          } 
         };
         if (currWindow === 5) {
-          moviePlayer(animationSequence[5], animationSequence[6]);
+          // проверяем номер текущего кадра
+          if(curSpriteNum > animationSequence[5] && curSpriteNum <= animationSequence[6]){
+            moviePlayer(curSpriteNum, animationSequence[6]);
+          } else{
+            moviePlayer(animationSequence[5], animationSequence[6]);
+          } 
         };
         if (currWindow === 6) {
-          moviePlayer(animationSequence[6], animationSequence[7]);
+         // проверяем номер текущего кадра
+          if(curSpriteNum > animationSequence[6] && curSpriteNum <= animationSequence[7]){
+            moviePlayer(curSpriteNum, animationSequence[7]);
+          } else{
+            moviePlayer(animationSequence[6], animationSequence[7]);
+          } 
         };
         if (currWindow === 7) {
-          moviePlayer(animationSequence[7], animationSequence[8]);
+          // проверяем номер текущего кадра
+          if(curSpriteNum > animationSequence[7] && curSpriteNum <= animationSequence[8]){
+            moviePlayer(curSpriteNum, animationSequence[8]);
+          } else{
+            moviePlayer(animationSequence[7], animationSequence[8]);
+          }
         };
         if (currWindow === 8) {
-          moviePlayer(animationSequence[8], animationSequence[9]);
+          // проверяем номер текущего кадра
+          if(curSpriteNum > animationSequence[8] && curSpriteNum <= animationSequence[9]){
+            moviePlayer(curSpriteNum, animationSequence[9]);
+          } else{
+            moviePlayer(animationSequence[8], animationSequence[9]);
+          }
         };
         if (currWindow === 9) {
-         moviePlayer(animationSequence[9], animationSequence[10]);
+         // проверяем номер текущего кадра
+          if(curSpriteNum > animationSequence[9] && curSpriteNum <= animationSequence[10]){
+            moviePlayer(curSpriteNum, animationSequence[10]);
+          } else{
+            moviePlayer(animationSequence[9], animationSequence[10]);
+          }
         };  
       
     }
