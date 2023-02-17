@@ -29,7 +29,13 @@ let animationSequence = [0, 0, 19, 38, 57, 76, 95, 114, 133, 152, 190] //
 window.addEventListener('load', windowLoad);
 // вешаем прослушку для скролла
 function chekcScrollPos(){
-  console.log('windowLoad');
+  let item = targets[currWindow];
+  let itemPos = item.getBoundingClientRect().top
+  if(Math.abs(itemPos)<windowHeight){
+    console.log(itemPos);
+  }
+  
+  
 }
 
 function windowLoad() {
