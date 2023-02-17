@@ -2,12 +2,12 @@ let currWindow; // номер текущего окна
 let isMovieEnable; // разрешить воспроизведение видео
 let targets; // окна отслеживаемые IntersectionObserver
 let targetsNum; // количество окон
-const FRAMESPERSECOND = 10;
+const FRAMESPERSECOND = 25;
 const NUMOFFRAMES = 191;
 let sprite = []; // массив обьектов кадров
 let curSprite; // текущий обьект кадра
 let curSpriteNum = 0; // текущий номер кадра
-const singleFrameRate = 15; // количество кадров на полную высоту окна когда прокручиваем кадры по одному
+const singleFrameRate = 25; // количество кадров на полную высоту окна когда прокручиваем кадры по одному
 
 /* массив для анимации сайта 
 [
@@ -25,7 +25,7 @@ const singleFrameRate = 15; // количество кадров на полну
 ] 
 */
 
-let animationSequence = [0, 0, 19, 38, 57, 76, 95, 114, 133, 152, 190] // 
+let animationSequence = [0, 0, 60, 108, 147, 190, 95, 114, 133, 152, 190] // 
 
 window.addEventListener('load', windowLoad);
 
@@ -41,14 +41,14 @@ function chekcScrollPos(){
     calcPos = -1*Math.ceil(itemPos/rate);
     if(pervCalcPos!=calcPos){
       if(pervCalcPos-calcPos>0){
-        console.log("down");
+        //console.log("down");
         curSpriteNum--;
       }
       else {
-        console.log("up");
+        //console.log("up");
         curSpriteNum++;
       }
-      console.log(pervCalcPos-calcPos);
+      //console.log(curSpriteNum);
       pervCalcPos=calcPos;
       displayDingleFrame();
     }     
@@ -84,6 +84,7 @@ function windowLoad() {
         });
         elem.target.classList.add("displayed");
       }
+      console.log(curSpriteNum);
       checkDisplayedWindow(elem.isIntersecting);
     });
   };
