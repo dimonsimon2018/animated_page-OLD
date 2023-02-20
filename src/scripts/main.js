@@ -2,12 +2,12 @@ let currWindow; // номер текущего окна
 let isMovieEnable; // разрешить воспроизведение видео
 let targets; // окна отслеживаемые IntersectionObserver
 let targetsNum; // количество окон
-const FRAMESPERSECOND = 25;
+const FRAMESPERSECOND = 30;
 const NUMOFFRAMES = 191;
 let sprite = []; // массив обьектов кадров
 let curSprite; // текущий обьект кадра
 let curSpriteNum = 0; // текущий номер кадра
-const singleFrameRate = 25; // количество кадров на полную высоту окна когда прокручиваем кадры по одному
+const singleFrameRate = 20; // количество кадров на полную высоту окна когда прокручиваем кадры по одному
 
 /* массив для анимации сайта 
 [
@@ -25,7 +25,7 @@ const singleFrameRate = 25; // количество кадров на полну
 ] 
 */
 
-let animationSequence = [0, 0, 60, 108, 147, 190, 95, 114, 133, 152, 190] // 
+let animationSequence = [0, 0, 100, 190, 180, 190, 95, 114, 133, 152, 190] // 
 
 window.addEventListener('load', windowLoad);
 
@@ -50,11 +50,11 @@ function chekcScrollPos(){
       }
       //console.log(curSpriteNum);
       pervCalcPos=calcPos;
-      displayDingleFrame();
+      displaySingleFrame();
     }     
   }   
 }
-function displayDingleFrame(){
+function displaySingleFrame(){
   curSprite = sprite[curSpriteNum];
   reDrawCanvas();
 }
@@ -84,7 +84,7 @@ function windowLoad() {
         });
         elem.target.classList.add("displayed");
       }
-      console.log(curSpriteNum);
+      //console.log(curSpriteNum);
       checkDisplayedWindow(elem.isIntersecting);
     });
   };
@@ -123,9 +123,12 @@ function moviePlayer(startFrame, endFrame) {
       if(startFrame-endFrame!=0){
         curSpriteNum = res;
       } else {curSpriteNum = startFrame; }
-      
+      if(curSprite != sprite[curSpriteNum]){
       curSprite = sprite[curSpriteNum];
-      reDrawCanvas();    
+      reDrawCanvas(); 
+      console.log(curSpriteNum)   ;
+      }
+      
       if (progress < 1 ) {
           window.requestAnimationFrame(step);
       }
@@ -177,7 +180,7 @@ reDrawCanvas();
 function createSprites() {
   for (let i = 0; i < NUMOFFRAMES; i++) {
     sprite[i] = new Image();
-    sprite[i].src = `img/sequence/Section1_${i}.jpg`;
+    sprite[i].src = `img/sequence/Section1_${i}.webp`;
   }
 }
 
