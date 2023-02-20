@@ -25,7 +25,7 @@ const singleFrameRate = 35; // количество кадров на полну
 ] 
 */
 
-let animationSequence = [0, 0, 50, 100, 150, 190, 95, 114, 133, 152, 190] // 
+let animationSequence = [0, 0, 100, 140, 190, 190, 95, 114, 133, 152, 190] // 
 
 window.addEventListener('load', windowLoad);
 
@@ -90,10 +90,10 @@ function windowLoad() {
         });
         elem.target.classList.add("displayed");
       }
-      //console.log(curSpriteNum);
-      if (elem.isIntersecting === true){
-checkDisplayedWindow(elem.isIntersecting);
-      }
+      console.log(elem.isIntersecting);
+     
+        checkDisplayedWindow(elem.isIntersecting);
+     
       
 
     
