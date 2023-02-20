@@ -7,7 +7,7 @@ const NUMOFFRAMES = 191;
 let sprite = []; // массив обьектов кадров
 let curSprite; // текущий обьект кадра
 let curSpriteNum = 0; // текущий номер кадра
-const singleFrameRate = 20; // количество кадров на полную высоту окна когда прокручиваем кадры по одному
+const singleFrameRate = 35; // количество кадров на полную высоту окна когда прокручиваем кадры по одному
 
 /* массив для анимации сайта 
 [
@@ -25,11 +25,12 @@ const singleFrameRate = 20; // количество кадров на полну
 ] 
 */
 
-let animationSequence = [0, 0, 100, 190, 180, 190, 95, 114, 133, 152, 190] // 
+let animationSequence = [0, 0, 50, 100, 150, 190, 95, 114, 133, 152, 190] // 
 
 window.addEventListener('load', windowLoad);
 
 let pervCalcPos;
+let scrollDirection;
 // вешаем прослушку для скролла
 function chekcScrollPos(){
   let item = targets[currWindow];
@@ -38,17 +39,21 @@ function chekcScrollPos(){
   let calcPos;
   
   if(Math.abs(itemPos)<windowHeight){
-    calcPos = -1*Math.ceil(itemPos/rate);
+    calcPos = -1*Math.round(itemPos/rate);
+    //console.log(calcPos);
     if(pervCalcPos!=calcPos){
       if(pervCalcPos-calcPos>0){
+        scrollDirection = "down";
         //console.log("down");
         curSpriteNum--;
       }
       else {
+        scrollDirection = "up";
         //console.log("up");
         curSpriteNum++;
-      }
-      //console.log(curSpriteNum);
+      }     
+     
+      
       pervCalcPos=calcPos;
       displaySingleFrame();
     }     
@@ -67,7 +72,7 @@ function windowLoad() {
   
   //#region /////////////////// Хэндлер для пересечения полного экрана
   const options = {
-    threshold: [1]
+    threshold: [0.9]
   };
   const callback = function (entries, observer) {
     // запускаем обработку если уже прогружена страница
@@ -75,6 +80,7 @@ function windowLoad() {
     entries.forEach(function (elem, index) {    
       pervCalcPos = 0;
       if (elem.isIntersecting) {
+        
         // чистим классы у остальных элементов
         targets.forEach(function (e, i) {
 
@@ -85,7 +91,14 @@ function windowLoad() {
         elem.target.classList.add("displayed");
       }
       //console.log(curSpriteNum);
-      checkDisplayedWindow(elem.isIntersecting);
+      if (elem.isIntersecting === true){
+checkDisplayedWindow(elem.isIntersecting);
+      }
+      
+
+    
+
+      
     });
   };
   const observer = new IntersectionObserver(callback, options);
@@ -126,7 +139,7 @@ function moviePlayer(startFrame, endFrame) {
       if(curSprite != sprite[curSpriteNum]){
       curSprite = sprite[curSpriteNum];
       reDrawCanvas(); 
-      console.log(curSpriteNum)   ;
+      //console.log(curSpriteNum)   ;
       }
       
       if (progress < 1 ) {
@@ -154,15 +167,35 @@ function checkDisplayedWindow(isFullHeight) {
       //console.log(`Текущее окно: ${currWindow} , полная высота: ${isFullHeight}`);
       // запускаем анимацию для проверки  
       for (let index = 0; index < targetsNum; index++) {
-        if (currWindow === index) {     
+        if (currWindow === index) {   
+          setTargetFrame();  
           // проверяем номер текущего кадра
-          if(curSpriteNum > animationSequence[index] && curSpriteNum <= animationSequence[index + 1]){
-            moviePlayer(curSpriteNum, animationSequence[index + 1]);
-          }  
+          if (isFullHeight === true) {
+            moviePlayer(curSpriteNum, targetFrame);
+          }       
+            
+                   
         }          
       }       
     }
   })
+}
+
+let targetFrame; // номер целевого кадра
+function setTargetFrame(){
+  for (let index = 0; index < targetsNum; index++) {
+        if (currWindow === index) {     
+          // проверяем номер текущего кадра    
+             if(scrollDirection === "up"){
+                // мотаем контент вверх
+             }
+             else{
+                // мотаем контент вниз
+             }
+          targetFrame = animationSequence[index + 1];  
+          console.log(`Устанавливаем номер целевого кадра ${targetFrame}`);        
+        }          
+      } 
 }
 
 const canvas = document.getElementById("snap-sequence-canvas");
