@@ -3,7 +3,7 @@ let isMovieEnable; // разрешить воспроизведение виде
 let targets; // окна отслеживаемые IntersectionObserver
 let targetsNum; // количество окон
 const FRAMESPERSECOND = 30;
-const NUMOFFRAMES = 191;
+const NUMOFFRAMES = 451;
 let sprite = []; // массив обьектов кадров
 let curSprite; // текущий обьект кадра
 let curSpriteNum = 0; // текущий номер кадра
