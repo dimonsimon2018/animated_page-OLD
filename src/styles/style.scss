@@ -41,24 +41,32 @@ body {
     max-width: calc($container-width + $container-padding*2 );
     padding: 0 $container-padding;
 
+
 }
 
 
 
 .content {
 
-    // border: 2px solid yellow;
+    //border: 20px solid yellow;
     height: 100vh;
     width: 100%;
+    // position: relative;
+    // margin: 0 auto;
 
     &__animation {
         height: 100%;
         width: 100%;
-        // border: 1px solid rgb(73, 144, 65);
+
         position: fixed;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
         top: 0;
         left: 0;
-        z-index: -2;
+        //border: 5px solid rgb(114, 51, 191);
+        z-index: -1;
+
         // background-color: gray;
     }
 
@@ -82,6 +90,12 @@ body {
         // border: 1px solid red;
 
     }
+}
+
+#snap-sequence-canvas {
+    position: relative;
+
+    // margin: 0 auto;
 }
 
 /* .content__snap-page:nth-child(2) {

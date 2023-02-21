@@ -231,14 +231,14 @@ $leftOfsetSideMenu: 80px; // недоезд меню к левой части э
     width: 100vw;
     height: 100vh;
     display: flex;
-    background-color: transparent;
+    //background-color: blue;
     position: fixed;
     z-index: 5;
     backdrop-filter: blur(10px);
     opacity: 0;
     visibility: hidden;
     transition: opacity 1s ease-out 0s, visibility 1s ease-out 0s, ;
-
+    //border: 2px solid yellow;
     // top: 100%;
 
     &.active {
@@ -256,27 +256,31 @@ $leftOfsetSideMenu: 80px; // недоезд меню к левой части э
     }
 
     &__left {
-        flex: 0 0 100%;
+        @media(min-width: $BurgerMenuScreenWidth) {
+            flex: 0 0 50%;
+        }
+
+        @media(max-width: $BurgerMenuScreenWidth) {
+            flex: 0 0 100%;
+        }
 
         height: 100%;
 
         background-color: white;
         opacity: 0.4;
+        //border: 2px solid yellow;
 
-        @media(min-width: $BurgerMenuScreenWidth) {
-            flex: 0 0 50%;
-        }
 
     }
 
     &__right {
-        flex: 0 0 50%;
+        flex: 0 0 100%;
         height: 100%;
         flex: 1;
         //border: 1px solid black;
         background-color: $first_color;
         opacity: 0.2;
-
+        //border: 10px solid yellow;
     }
 }
 

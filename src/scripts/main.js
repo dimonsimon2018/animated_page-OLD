@@ -2,7 +2,9 @@ let currWindow; // номер текущего окна
 let isMovieEnable; // разрешить воспроизведение видео
 let targets; // окна отслеживаемые IntersectionObserver
 let targetsNum; // количество окон
-const FRAMESPERSECOND = 30;
+const FRAMESPERSECONDFORWARD = 30;
+const FRAMESPERSECONDBACK = 90;
+let framePerSecond;
 const NUMOFFRAMES = 451;
 let sprite = []; // массив обьектов кадров
 let curSprite; // текущий обьект кадра
@@ -25,7 +27,7 @@ const singleFrameRate = 55; // количество кадров на полну
 ] 
 */
 
-let animationSequence = [0, 0, 5, 0, 150, 190, 0, 114, 133, 152, 190] // 
+let animationSequence = [0, 0, 58, 105, 142, 190, 142, 105, 190, 350, 450] // 
 
 window.addEventListener('load', windowLoad);
 
@@ -44,7 +46,8 @@ function chekcScrollPos() {
       //console.log(calcPos);
       if (pervCalcPos != calcPos) {
         if (pervCalcPos - calcPos > 0) {
-          scrollDirection = "down";
+          scrollDirection = "down";       
+          framePerSecond = FRAMESPERSECONDBACK;
           //console.log("down");
           if (animationSequence[currWindow] > animationSequence[currWindow + 1]) {
             if (curSpriteNum < animationSequence[currWindow])
@@ -53,7 +56,8 @@ function chekcScrollPos() {
             curSpriteNum--;
         }
         else {
-          scrollDirection = "up";
+          scrollDirection = "up";          
+           framePerSecond = FRAMESPERSECONDFORWARD;
           //console.log("up");
           if (animationSequence[currWindow + 2] > animationSequence[currWindow + 1]) {
             if (curSpriteNum < animationSequence[currWindow + 2])
@@ -62,11 +66,11 @@ function chekcScrollPos() {
             curSpriteNum--;
 
         }
-        console.log(curSpriteNum);
+       // console.log(curSpriteNum);
 
         pervCalcPos = calcPos;
         displaySingleFrame();
-        console.log(scrollDirection);
+       // console.log(scrollDirection);
       }
 
     }
@@ -104,7 +108,7 @@ function windowLoad() {
         });
         elem.target.classList.add("displayed");
       }
-      // console.log(elem.isIntersecting);
+       console.log(elem.isIntersecting);
 
       checkDisplayedWindow(elem.isIntersecting);
 
@@ -132,7 +136,7 @@ function moviePlayer(startFrame, endFrame) {
   // проверяем направление движения анимации
   if (startFrame - endFrame > 0) { dir = false; } else { dir = true; };
   let numSteps = Math.abs(endFrame - startFrame);
-  const duration = (1000 / FRAMESPERSECOND) * numSteps;
+  const duration = (1000 / framePerSecond) * numSteps;
   let startValue = numSteps;
 
 
@@ -207,7 +211,7 @@ function setTargetFrame() {
         // мотаем контент вниз
       }
       targetFrame = animationSequence[index + 1];
-      console.log(`Устанавливаем номер целевого кадра ${targetFrame}`);
+      //console.log(`Устанавливаем номер целевого кадра ${targetFrame}`);
     }
   }
 }
@@ -242,8 +246,8 @@ let windowWidth;
 let windowHeight;
 
 function checkWindowSize() {
-  windowWidth = parseInt(document.body.clientWidth);
-  windowHeight = parseInt(document.body.clientHeight);
+  windowWidth = parseInt(document.documentElement.clientWidth/2-170);
+  windowHeight = parseInt(document.documentElement.clientHeight);
   canvas.setAttribute('width', windowWidth);
   canvas.setAttribute('height', windowHeight);
   reDrawCanvas();
