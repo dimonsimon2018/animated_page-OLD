@@ -7,7 +7,7 @@ const NUMOFFRAMES = 191;
 let sprite = []; // массив обьектов кадров
 let curSprite; // текущий обьект кадра
 let curSpriteNum = 0; // текущий номер кадра
-const singleFrameRate = 35; // количество кадров на полную высоту окна когда прокручиваем кадры по одному
+const singleFrameRate = 55; // количество кадров на полную высоту окна когда прокручиваем кадры по одному
 
 /* массив для анимации сайта 
 [
@@ -25,41 +25,55 @@ const singleFrameRate = 35; // количество кадров на полну
 ] 
 */
 
-let animationSequence = [0, 0, 100, 140, 190, 190, 95, 114, 133, 152, 190] // 
+let animationSequence = [0, 0, 5, 0, 150, 190, 0, 114, 133, 152, 190] // 
 
 window.addEventListener('load', windowLoad);
 
 let pervCalcPos;
 let scrollDirection;
 // вешаем прослушку для скролла
-function chekcScrollPos(){
-  let item = targets[currWindow];
-  let itemPos = item.getBoundingClientRect().top
-  let rate = windowHeight / singleFrameRate; 
-  let calcPos;
-  
-  if(Math.abs(itemPos)<windowHeight){
-    calcPos = -1*Math.round(itemPos/rate);
-    //console.log(calcPos);
-    if(pervCalcPos!=calcPos){
-      if(pervCalcPos-calcPos>0){
-        scrollDirection = "down";
-        //console.log("down");
-        curSpriteNum--;
+function chekcScrollPos() {
+  if (!isMovieEnable) {
+    let item = targets[currWindow];
+    let itemPos = item.getBoundingClientRect().top
+    let rate = windowHeight / singleFrameRate;
+    let calcPos;
+
+    if (Math.abs(itemPos) < windowHeight) {
+      calcPos = -1 * Math.round(itemPos / rate);
+      //console.log(calcPos);
+      if (pervCalcPos != calcPos) {
+        if (pervCalcPos - calcPos > 0) {
+          scrollDirection = "down";
+          //console.log("down");
+          if (animationSequence[currWindow] > animationSequence[currWindow + 1]) {
+            if (curSpriteNum < animationSequence[currWindow])
+              curSpriteNum++;
+          } else if (curSpriteNum > animationSequence[currWindow])
+            curSpriteNum--;
+        }
+        else {
+          scrollDirection = "up";
+          //console.log("up");
+          if (animationSequence[currWindow + 2] > animationSequence[currWindow + 1]) {
+            if (curSpriteNum < animationSequence[currWindow + 2])
+              curSpriteNum++;
+          } else if (curSpriteNum > animationSequence[currWindow + 2])
+            curSpriteNum--;
+
+        }
+        console.log(curSpriteNum);
+
+        pervCalcPos = calcPos;
+        displaySingleFrame();
+        console.log(scrollDirection);
       }
-      else {
-        scrollDirection = "up";
-        //console.log("up");
-        curSpriteNum++;
-      }     
-     
-      
-      pervCalcPos=calcPos;
-      displaySingleFrame();
-    }     
-  }   
+
+    }
+
+  }
 }
-function displaySingleFrame(){
+function displaySingleFrame() {
   curSprite = sprite[curSpriteNum];
   reDrawCanvas();
 }
@@ -69,7 +83,7 @@ function windowLoad() {
   targetsNum = targets.length;
   checkWindowSize();
 
-  
+
   //#region /////////////////// Хэндлер для пересечения полного экрана
   const options = {
     threshold: [0.9]
@@ -77,10 +91,10 @@ function windowLoad() {
   const callback = function (entries, observer) {
     // запускаем обработку если уже прогружена страница
 
-    entries.forEach(function (elem, index) {    
+    entries.forEach(function (elem, index) {
       pervCalcPos = 0;
       if (elem.isIntersecting) {
-        
+
         // чистим классы у остальных элементов
         targets.forEach(function (e, i) {
 
@@ -90,15 +104,15 @@ function windowLoad() {
         });
         elem.target.classList.add("displayed");
       }
-      console.log(elem.isIntersecting);
-     
-        checkDisplayedWindow(elem.isIntersecting);
-     
-      
+      // console.log(elem.isIntersecting);
 
-    
+      checkDisplayedWindow(elem.isIntersecting);
 
-      
+
+
+
+
+
     });
   };
   const observer = new IntersectionObserver(callback, options);
@@ -131,19 +145,19 @@ function moviePlayer(startFrame, endFrame) {
       res = Math.floor((1 - progress) * (startValue) + endFrame);
     }
     // Выполняем рекурсию только если токен в TRUE и если есть разница в количестве кадров
-    if(isMovieEnable===true){
+    if (isMovieEnable === true) {
       // выполняем проверку на разницу кадров, если он один то его и показываем
-      if(startFrame-endFrame!=0){
+      if (startFrame - endFrame != 0) {
         curSpriteNum = res;
-      } else {curSpriteNum = startFrame; }
-      if(curSprite != sprite[curSpriteNum]){
-      curSprite = sprite[curSpriteNum];
-      reDrawCanvas(); 
-      //console.log(curSpriteNum)   ;
+      } else { curSpriteNum = startFrame; }
+      if (curSprite != sprite[curSpriteNum]) {
+        curSprite = sprite[curSpriteNum];
+        reDrawCanvas();
+        //console.log(curSpriteNum)   ;
       }
-      
-      if (progress < 1 ) {
-          window.requestAnimationFrame(step);
+
+      if (progress < 1) {
+        window.requestAnimationFrame(step);
       }
     }
 
@@ -155,7 +169,7 @@ function moviePlayer(startFrame, endFrame) {
 
 
 
-function checkDisplayedWindow(isFullHeight) { 
+function checkDisplayedWindow(isFullHeight) {
   targets.forEach(function (elem, index) {
     // устанавливаем значения токена для видео (запрещаем проигрывание если окно не на 100% высоты)
     isMovieEnable = isFullHeight;
@@ -167,35 +181,35 @@ function checkDisplayedWindow(isFullHeight) {
       //console.log(`Текущее окно: ${currWindow} , полная высота: ${isFullHeight}`);
       // запускаем анимацию для проверки  
       for (let index = 0; index < targetsNum; index++) {
-        if (currWindow === index) {   
-          setTargetFrame();  
+        if (currWindow === index) {
+          setTargetFrame();
           // проверяем номер текущего кадра
           if (isFullHeight === true) {
             moviePlayer(curSpriteNum, targetFrame);
-          }       
-            
-                   
-        }          
-      }       
+          }
+
+
+        }
+      }
     }
   })
 }
 
 let targetFrame; // номер целевого кадра
-function setTargetFrame(){
+function setTargetFrame() {
   for (let index = 0; index < targetsNum; index++) {
-        if (currWindow === index) {     
-          // проверяем номер текущего кадра    
-             if(scrollDirection === "up"){
-                // мотаем контент вверх
-             }
-             else{
-                // мотаем контент вниз
-             }
-          targetFrame = animationSequence[index + 1];  
-          console.log(`Устанавливаем номер целевого кадра ${targetFrame}`);        
-        }          
-      } 
+    if (currWindow === index) {
+      // проверяем номер текущего кадра    
+      if (scrollDirection === "up") {
+        // мотаем контент вверх
+      }
+      else {
+        // мотаем контент вниз
+      }
+      targetFrame = animationSequence[index + 1];
+      console.log(`Устанавливаем номер целевого кадра ${targetFrame}`);
+    }
+  }
 }
 
 const canvas = document.getElementById("snap-sequence-canvas");
